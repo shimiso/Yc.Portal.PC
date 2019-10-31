@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 import com.ufgov.special.component.screenCapture.CaptureScreen;
 import com.ufgov.special.component.util.ColorUtil;
 import com.yuecheng.workportal.BrowserManager;
-import com.yuecheng.workportal.bridge.TrayBridge;
+import com.yuecheng.workportal.bridge.BrowserBridge;
 import com.yuecheng.workportal.tools.ImageToBase64;
 
 public class ToolBarWindow {
@@ -115,7 +115,7 @@ public class ToolBarWindow {
         	String path=CaptureScreen.doAutoSave();
         	String imageBase64 = ImageToBase64.ImageToBase64(path);
         	System.out.println(imageBase64);
-        	String method = String.format(TrayBridge.shotPhotoCallback,imageBase64);
+        	String method = String.format(BrowserBridge.shotPhotoCallback,imageBase64);
         	BrowserManager.getInstance().getBrowser().executeJavaScript(method);
         }else if ("QUIT".equals(actionCommand))
             CaptureScreen.doQuit();

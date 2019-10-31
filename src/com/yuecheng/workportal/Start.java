@@ -33,13 +33,13 @@ public class Start {
 	}
 
 	public static void main(String[] args) {
-		try {
-			JFrame.setDefaultLookAndFeelDecorated(true);
-			JDialog.setDefaultLookAndFeelDecorated(true);
-			UIManager.setLookAndFeel(new AluminiumLookAndFeel());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			JFrame.setDefaultLookAndFeelDecorated(true);
+//			JDialog.setDefaultLookAndFeelDecorated(true);
+//			UIManager.setLookAndFeel(new AluminiumLookAndFeel());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
  
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

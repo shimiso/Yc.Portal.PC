@@ -1,7 +1,5 @@
 package com.yuecheng.workportal;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -12,33 +10,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
-import com.teamdev.jxbrowser.chromium.DownloadHandler;
-import com.teamdev.jxbrowser.chromium.DownloadItem;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.PopupContainer;
 import com.teamdev.jxbrowser.chromium.PopupHandler;
 import com.teamdev.jxbrowser.chromium.PopupParams;
-import com.teamdev.jxbrowser.chromium.events.DownloadEvent;
-import com.teamdev.jxbrowser.chromium.events.DownloadListener;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+import com.yuecheng.workportal.bridge.BrowserBridge;
 import com.yuecheng.workportal.bridge.CaptureScreenBridge;
 import com.yuecheng.workportal.bridge.LowerRightPromptBridge;
-import com.yuecheng.workportal.bridge.TrayBridge;
 
 /**
  * 
@@ -47,14 +41,12 @@ import com.yuecheng.workportal.bridge.TrayBridge;
  * @author Everest
  *
  */
-public class Main extends JFrame implements Runnable {
+public class Main extends JFrame{
 	private static final long serialVersionUID = -3115128552716619277L;
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
-	private static int count = 1; // 记录消息闪动的次数
-	private boolean flag = false; // 是否有新消息
-	private static int times = 1; // 接收消息次数
+	private TrayThread trayThread;
 	
 	/**
 	 * 初始化窗体的方法
@@ -62,7 +54,6 @@ public class Main extends JFrame implements Runnable {
 	public void init() {
 		 // Specifies remote debugging port for remote Chrome Developer Tools.
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
-		
 		this.setTitle("乐成工作台");
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
@@ -72,6 +63,7 @@ public class Main extends JFrame implements Runnable {
 		
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
+	
 
 		browser.addLoadListener(new LoadAdapter() {
 			@Override
@@ -82,19 +74,16 @@ public class Main extends JFrame implements Runnable {
 					CaptureScreenBridge captureScreenBridge = new CaptureScreenBridge(Main.this);
 					window.asObject().setProperty("CaptureScreenBridge", captureScreenBridge);
 					
-					TrayBridge trayBridge =new TrayBridge(Main.this);
-					window.asObject().setProperty("TrayBridge", trayBridge);
+					BrowserBridge browserBridge =new BrowserBridge(Main.this);
+					window.asObject().setProperty("BrowserBridge", browserBridge);
 					
 					LowerRightPromptBridge lowerRightPromptBridge =new LowerRightPromptBridge();
 					window.asObject().setProperty("LowerRightPromptBridge", lowerRightPromptBridge);
-					// 调用前端页面js
-					if (event.isMainFrame()) {
-						// browser.executeJavaScript("alert('java調用了js')");
-					}
 				}
 			}
 		});
 		
+		//网页跳出拦截
 		browser.setPopupHandler(new PopupHandler() {
 			@Override
 			public PopupContainer handlePopup(PopupParams popupParams) {
@@ -109,25 +98,9 @@ public class Main extends JFrame implements Runnable {
 				return null;
 			}
 		});
-		
-//		 browser.setDownloadHandler(new DownloadHandler() {
-//	            public boolean allowDownload(DownloadItem download) {
-//	                download.addDownloadListener(new DownloadListener() {
-//	                    public void onDownloadUpdated(DownloadEvent event) {
-//	                        DownloadItem download = event.getDownloadItem();
-//	                        if (download.isCompleted()) {
-//	                            System.out.println("Download is completed!");
-//	                        }
-//	                    }
-//	                });
-//	                System.out.println("Destination file: " +
-//	                        download.getDestinationFile().getAbsolutePath());
-//	                return true;
-//	            }
-//	        });
 
-//		browser.loadURL("E:\\eclipse-workspace\\JxBrowserTest\\src\\res\\test.html");
-		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
+//		browser.loadURL("E:\\eclipse-workspace\\Yc.Portal.PC\\src\\res\\test.html");
+		browser.loadURL("http://10.0.10.34:8080/");
 		this.setSize(1280, 800);
 		Font font = new Font("微软雅黑", Font.PLAIN, 12);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
@@ -150,19 +123,6 @@ public class Main extends JFrame implements Runnable {
 			addTrayIcon();
 		}
 		this.setVisible(true);
-		
-		Browser debugBrowser = new Browser();
-        BrowserView view2 = new BrowserView(debugBrowser);
-     // Gets URL of the remote Developer Tools web page for browser1 instance.
-        String remoteDebuggingURL = browser.getRemoteDebuggingURL();
-
-        JFrame debugFrame = new JFrame();
-        debugFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        debugFrame.add(view2, BorderLayout.CENTER);
-        debugFrame.setSize(700, 500);
-        debugFrame.setLocationRelativeTo(null);
-        debugFrame.setVisible(true);
-        debugBrowser.loadURL(remoteDebuggingURL);
 	}
 
 	/**
@@ -172,7 +132,6 @@ public class Main extends JFrame implements Runnable {
 		try {
 			sysTray.add(trayIcon);// 将托盘添加到操作系统的托盘
 			setVisible(false); // 使得当前的窗口隐藏
-			new Thread(this).start();
 		} catch (AWTException e1) {
 			e1.printStackTrace();
 		}
@@ -188,8 +147,12 @@ public class Main extends JFrame implements Runnable {
 		JPopupMenu popupMenu = new JPopupMenu();// 弹出菜单
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		JMenuItem mi = new JMenuItem("打开");
+		JMenuItem debug = new JMenuItem("调试模式");
+		JMenuItem server = new JMenuItem("切换服务");
 		JMenuItem exit = new JMenuItem("退出");
 		popupMenu.add(mi);
+		popupMenu.add(debug);
+		popupMenu.add(server);
 		popupMenu.add(exit);
 		// 为弹出菜单项添加事件
 		mi.addActionListener(new ActionListener() {
@@ -197,9 +160,23 @@ public class Main extends JFrame implements Runnable {
 				Main.this.setExtendedState(JFrame.NORMAL);
 				Main.this.setVisible(true); // 显示窗口
 				Main.this.toFront(); // 显示窗口到最前端
-				flag = false; // 消息打开了
-				count = 0;
-				times++;
+				stopShake(); // 消息打开了
+			}
+		});
+		debug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				debugBrowser(true);
+			}
+		});
+		server.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 消息对话框无返回, 仅做通知作用
+				String inputContent = JOptionPane.showInputDialog(Main.this,"输入URL地址","http://yctestportalweb.yuechenggroup.com/");
+				if(inputContent!=null&&!inputContent.trim().equals("")) {
+					BrowserManager.getInstance().getBrowser().loadURL(inputContent);
+				}else {
+					JOptionPane.showMessageDialog(null, "地址不能为空", "提示", JOptionPane.WARNING_MESSAGE );
+				}
 			}
 		});
 		exit.addActionListener(new ActionListener() {
@@ -209,47 +186,55 @@ public class Main extends JFrame implements Runnable {
 		});
 		trayIcon = new TrayIcon(icon.getImage(), "乐成工作平台");
 		trayIcon.setImageAutoSize(true);
-		
-		trayIcon.addMouseListener(new MouseAdapter() {
-
-		    @Override
-		    public void mouseReleased(MouseEvent e) {
-		        maybeShowPopup(e);
-		    }
-
-		    @Override
-		    public void mousePressed(MouseEvent e) {
-		        maybeShowPopup(e);
-		    }
-
-		    private void maybeShowPopup(MouseEvent e) {
-		        if (e.isPopupTrigger()) {
-		        	popupMenu.setLocation(e.getX(), e.getY());
-		        	popupMenu.setInvoker(popupMenu);
-		        	popupMenu.setVisible(true);
-		        }
-		    }
-		});
-		
 		/** 添加鼠标监听器，当鼠标在托盘图标上双击时，默认显示窗口 */
 		trayIcon.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) { // 鼠标双击
+				if (e.getButton() == e.BUTTON1) { // 鼠标单机
 					Main.this.setExtendedState(JFrame.NORMAL);
 					Main.this.setVisible(true); // 显示窗口
 					Main.this.toFront();
-					flag = false; // 消息打开了
-					count = 0;
-					times++;
+					stopShake(); // 消息打开了
+				}  
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				maybeShowPopup(e);
+			}
+
+			private void maybeShowPopup(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					popupMenu.setLocation(e.getX(), e.getY());
+					popupMenu.setInvoker(popupMenu);
+					popupMenu.setVisible(true);
 				}
 			}
 		});
 	}
 
-	public void setFlag(boolean flag) {
-		this.flag = flag;
+	/**
+	 * 开始闪动托盘和任务栏
+	 */
+	public void startShake() {
+		trayThread = new TrayThread(this,trayIcon,icon);
+		trayThread.start();
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void stopShake() {
+		if(trayThread!=null) {
+			trayThread.stopShake();
+			trayThread = null;
+		}
+	}
+	
 	public Main() {
 		Image image = this.getToolkit().getImage(getRes("res/tray.png"));
 		this.setIconImage(image);
@@ -260,47 +245,28 @@ public class Main extends JFrame implements Runnable {
 		return this.getClass().getClassLoader().getResource(str);
 	}
 
-	/**
-	 * 线程控制闪动
-	 */
-	public void run() {
-		while (true) {
-			if (flag) { // 有新消息
-				try {
-					if (count == 1) {
-						// 播放消息提示音
-						// AudioPlayer p = new AudioPlayer(getRes("file:com/sound/Msg.wav"));
-						// p.play(); p.stop();
-						try {
-							AudioClip p = Applet.newAudioClip(new URL("file:sound/msg.wav"));
-							p.play();
-						} catch (MalformedURLException e) {
-							e.printStackTrace();
-						}
-					}
-					// 闪动消息的空白时间
-					this.setTitle("");
-					this.trayIcon.setImage(new ImageIcon("").getImage());
-					Thread.sleep(500);
-					// 闪动消息的提示图片
-					this.trayIcon.setImage(icon.getImage());
-					this.setTitle("乐成工作台");
-					Thread.sleep(500);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				count++;
-			} else { // 无消息或是消息已经打开过
-				if(icon!=null)
-					this.trayIcon.setImage(icon.getImage());
-				// 每隔5秒闪动一次，测试时使用
-				// try {
-				// Thread.sleep(5000);
-				// flag = true;
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
+	JFrame debugFrame;
+	public void debugBrowser(boolean isDebug) {
+		if(isDebug) {
+			if(debugFrame!=null) {
+				debugFrame.setVisible(true);
+			}else {
+				Browser debugBrowser = new Browser();
+		        BrowserView view2 = new BrowserView(debugBrowser);
+		     // Gets URL of the remote Developer Tools web page for browser1 instance.
+		        String remoteDebuggingURL = BrowserManager.getInstance().getBrowser().getRemoteDebuggingURL();
+
+		        debugFrame = new JFrame();
+		        debugFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		        debugFrame.add(view2, BorderLayout.CENTER);
+		        debugFrame.setSize(700, 500);
+		        debugFrame.setLocationRelativeTo(null);
+		        debugFrame.setVisible(true);
+		        debugBrowser.loadURL(remoteDebuggingURL);
 			}
+		}else {
+			if(debugFrame!=null)
+				debugFrame.dispose();
 		}
 	}
 }
