@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
@@ -54,14 +55,16 @@ public class Main extends JFrame{
 	public void init() {
 		 // Specifies remote debugging port for remote Chrome Developer Tools.
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+//        this.setUndecorated(true);
 		this.setTitle("乐成工作台");
+		this.setSize(1280, 800);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
 
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.add(view, BorderLayout.CENTER);
 		
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 	
 
@@ -98,10 +101,8 @@ public class Main extends JFrame{
 				return null;
 			}
 		});
-
-//		browser.loadURL("E:\\eclipse-workspace\\Yc.Portal.PC\\src\\res\\test.html");
-		browser.loadURL("http://10.0.10.34:8080/");
-		this.setSize(1280, 800);
+//		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
+		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
 		Font font = new Font("微软雅黑", Font.PLAIN, 12);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
