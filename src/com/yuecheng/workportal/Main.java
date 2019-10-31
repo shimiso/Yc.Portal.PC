@@ -28,6 +28,9 @@ import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.DownloadHandler;
 import com.teamdev.jxbrowser.chromium.DownloadItem;
 import com.teamdev.jxbrowser.chromium.JSValue;
+import com.teamdev.jxbrowser.chromium.PopupContainer;
+import com.teamdev.jxbrowser.chromium.PopupHandler;
+import com.teamdev.jxbrowser.chromium.PopupParams;
 import com.teamdev.jxbrowser.chromium.events.DownloadEvent;
 import com.teamdev.jxbrowser.chromium.events.DownloadListener;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
@@ -92,23 +95,38 @@ public class Main extends JFrame implements Runnable {
 			}
 		});
 		
-		 browser.setDownloadHandler(new DownloadHandler() {
-	            public boolean allowDownload(DownloadItem download) {
-	                download.addDownloadListener(new DownloadListener() {
-	                    public void onDownloadUpdated(DownloadEvent event) {
-	                        DownloadItem download = event.getDownloadItem();
-	                        if (download.isCompleted()) {
-	                            System.out.println("Download is completed!");
-	                        }
-	                    }
-	                });
-	                System.out.println("Destination file: " +
-	                        download.getDestinationFile().getAbsolutePath());
-	                return true;
+		browser.setPopupHandler(new PopupHandler() {
+			@Override
+			public PopupContainer handlePopup(PopupParams popupParams) {
+//				browser.loadURL(popupParams.getURL());
+				//原理: 通过执行CMD命令,来实现
+	            String str = "cmd /c start iexplore "+popupParams.getURL();
+	            try {
+	                Runtime.getRuntime().exec(str);
+	            } catch (Exception ex) {
+	                ex.printStackTrace();
 	            }
-	        });
+				return null;
+			}
+		});
+		
+//		 browser.setDownloadHandler(new DownloadHandler() {
+//	            public boolean allowDownload(DownloadItem download) {
+//	                download.addDownloadListener(new DownloadListener() {
+//	                    public void onDownloadUpdated(DownloadEvent event) {
+//	                        DownloadItem download = event.getDownloadItem();
+//	                        if (download.isCompleted()) {
+//	                            System.out.println("Download is completed!");
+//	                        }
+//	                    }
+//	                });
+//	                System.out.println("Destination file: " +
+//	                        download.getDestinationFile().getAbsolutePath());
+//	                return true;
+//	            }
+//	        });
 
-//		 browser.loadURL("E:\\eclipse-workspace\\JxBrowserTest\\src\\res\\test.html");
+//		browser.loadURL("E:\\eclipse-workspace\\JxBrowserTest\\src\\res\\test.html");
 		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
 		this.setSize(1280, 800);
 		Font font = new Font("微软雅黑", Font.PLAIN, 12);
@@ -273,7 +291,8 @@ public class Main extends JFrame implements Runnable {
 				}
 				count++;
 			} else { // 无消息或是消息已经打开过
-				this.trayIcon.setImage(icon.getImage());
+				if(icon!=null)
+					this.trayIcon.setImage(icon.getImage());
 				// 每隔5秒闪动一次，测试时使用
 				// try {
 				// Thread.sleep(5000);

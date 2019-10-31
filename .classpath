@@ -2,14 +2,14 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-6.21.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-linux64-6.21.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-mac-6.21.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-win32-6.21.jar"/>
-	<classpathentry kind="lib" path="lib/jxbrowser-win64-6.21.jar"/>
-	<classpathentry kind="lib" path="lib/license.jar"/>
-	<classpathentry kind="lib" path="lib/rt.jar"/>
-	<classpathentry kind="lib" path="lib/JTattoo.jar"/>
-	<classpathentry kind="lib" path="lib/substance.jar"/>
+	<classpathentry kind="lib" path="libs/JTattoo.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser-6.21.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser-linux64-6.21.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser-mac-6.21.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser-win32-6.21.jar"/>
+	<classpathentry kind="lib" path="libs/jxbrowser-win64-6.21.jar"/>
+	<classpathentry kind="lib" path="libs/license.jar"/>
+	<classpathentry kind="lib" path="libs/rt.jar"/>
+	<classpathentry kind="lib" path="libs/substance.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
