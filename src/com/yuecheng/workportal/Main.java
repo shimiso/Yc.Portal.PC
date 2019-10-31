@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.DownloadHandler;
 import com.teamdev.jxbrowser.chromium.DownloadItem;
 import com.teamdev.jxbrowser.chromium.JSValue;
@@ -56,12 +57,16 @@ public class Main extends JFrame implements Runnable {
 	 * 初始化窗体的方法
 	 */
 	public void init() {
+		 // Specifies remote debugging port for remote Chrome Developer Tools.
+        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+		
 		this.setTitle("乐成工作台");
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
 
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.add(view, BorderLayout.CENTER);
+		
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setLocationRelativeTo(null);
 
@@ -87,20 +92,22 @@ public class Main extends JFrame implements Runnable {
 			}
 		});
 		
-		browser.setDownloadHandler(new DownloadHandler() {
-		    public boolean allowDownload(DownloadItem download) {
-		        download.addDownloadListener(new DownloadListener() {
-		            public void onDownloadUpdated(DownloadEvent event) {
-		                DownloadItem download = event.getDownloadItem();
-		                if (download.isCompleted()) {
-		                    System.out.println("Download is completed!");
-		                }
-		            }
-		        });
-		        System.out.println("Dest file: " + download.getDestinationFile().getAbsolutePath());
-		        return true;
-		    }
-		});
+		 browser.setDownloadHandler(new DownloadHandler() {
+	            public boolean allowDownload(DownloadItem download) {
+	                download.addDownloadListener(new DownloadListener() {
+	                    public void onDownloadUpdated(DownloadEvent event) {
+	                        DownloadItem download = event.getDownloadItem();
+	                        if (download.isCompleted()) {
+	                            System.out.println("Download is completed!");
+	                        }
+	                    }
+	                });
+	                System.out.println("Destination file: " +
+	                        download.getDestinationFile().getAbsolutePath());
+	                return true;
+	            }
+	        });
+
 //		 browser.loadURL("E:\\eclipse-workspace\\JxBrowserTest\\src\\res\\test.html");
 		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
 		this.setSize(1280, 800);
@@ -125,6 +132,19 @@ public class Main extends JFrame implements Runnable {
 			addTrayIcon();
 		}
 		this.setVisible(true);
+		
+		Browser debugBrowser = new Browser();
+        BrowserView view2 = new BrowserView(debugBrowser);
+     // Gets URL of the remote Developer Tools web page for browser1 instance.
+        String remoteDebuggingURL = browser.getRemoteDebuggingURL();
+
+        JFrame debugFrame = new JFrame();
+        debugFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        debugFrame.add(view2, BorderLayout.CENTER);
+        debugFrame.setSize(700, 500);
+        debugFrame.setLocationRelativeTo(null);
+        debugFrame.setVisible(true);
+        debugBrowser.loadURL(remoteDebuggingURL);
 	}
 
 	/**
