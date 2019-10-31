@@ -24,7 +24,11 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.DownloadHandler;
+import com.teamdev.jxbrowser.chromium.DownloadItem;
 import com.teamdev.jxbrowser.chromium.JSValue;
+import com.teamdev.jxbrowser.chromium.events.DownloadEvent;
+import com.teamdev.jxbrowser.chromium.events.DownloadListener;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -81,6 +85,21 @@ public class Main extends JFrame implements Runnable {
 					}
 				}
 			}
+		});
+		
+		browser.setDownloadHandler(new DownloadHandler() {
+		    public boolean allowDownload(DownloadItem download) {
+		        download.addDownloadListener(new DownloadListener() {
+		            public void onDownloadUpdated(DownloadEvent event) {
+		                DownloadItem download = event.getDownloadItem();
+		                if (download.isCompleted()) {
+		                    System.out.println("Download is completed!");
+		                }
+		            }
+		        });
+		        System.out.println("Dest file: " + download.getDestinationFile().getAbsolutePath());
+		        return true;
+		    }
 		});
 //		 browser.loadURL("E:\\eclipse-workspace\\JxBrowserTest\\src\\res\\test.html");
 		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
