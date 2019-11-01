@@ -101,8 +101,8 @@ public class Main extends JFrame{
 				return null;
 			}
 		});
-//		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
-		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
+		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
+//		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
 		Font font = new Font("微软雅黑", Font.PLAIN, 12);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {

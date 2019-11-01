@@ -1,6 +1,7 @@
 package com.yuecheng.workportal.bridge;
 
 import com.yuecheng.workportal.Main;
+import com.yuecheng.workportal.tools.DesktopAppUtils;
 
 public class BrowserBridge {
 	Main frame;
@@ -21,5 +22,13 @@ public class BrowserBridge {
 	
 	public void debugBrowser(boolean isDebug) {
 		frame.debugBrowser(isDebug);	
+	}
+	
+	public void openKingDeeEas() {
+		DesktopAppUtils.openKingDeeEas();
+	}
+	
+	public void openLeTian() {
+		DesktopAppUtils.openLeTian();
 	}
 }
