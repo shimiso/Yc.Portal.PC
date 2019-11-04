@@ -1,4 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/com/yuecheng/workportal/Start.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/BorderStructure.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/Capturer.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/ControlPanel.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/ImagePanel.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/OverViewPanel.java=UTF-8
+encoding//src/com/yuecheng/workportal/screen/ToolImagePanel.java=UTF-8
+encoding//src/com/yuecheng/workportal/tools/GraphicsUtils.java=UTF-8
 encoding//src/res/test.html=UTF-8
 encoding/<project>=UTF-8

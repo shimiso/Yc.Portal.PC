@@ -12,37 +12,19 @@
             var url = 'data:image/gif;base64,'+data;
             imgPre.src = url;
         }
-        
-        function shotScreen(isHide) {
-    		try {
-    			CaptureScreenBridge.shot(isHide);
-    		} catch (e) {
-    		}
-    	}
-        
-        function trayShake(isShake) {
-        	BrowserBridge.trayShake(isShake);
-        }
-        
-        function showPrompt(title,content) {
-        	LowerRightPromptBridge.show(title,content)
-        }
-        function debugBrowser(isDebug) {
-        	BrowserBridge.debugBrowser(isDebug);
-        }
     </script>
 </head>
 <body>
 	<div>这是一个Html网页</div>
-	<button onclick="debugBrowser(true)">打开Debug调试</button>
-	<button onclick="debugBrowser(false)">关闭Debug调试</button>
-	<button onclick="shotScreen(false)">截取屏幕区域</button>
-	<button onclick="shotScreen(true)">截屏时隐藏当前窗口</button>
-	<button onclick="trayShake(true)">托盘闪动开始</button>
-	<button onclick="trayShake(false)">托盘闪动停止</button><br><br>
+	<button onclick="BrowserBridge.debugBrowser(true)">打开Debug调试</button>
+	<button onclick="BrowserBridge.debugBrowser(false)">关闭Debug调试</button>
+	<button onclick="BrowserBridge.beginCapture(false)">截取屏幕区域</button>
+	<button onclick="BrowserBridge.beginCapture(true)">截屏时隐藏当前窗口</button>
+	<button onclick="BrowserBridge.trayShake(true)">托盘闪动开始</button>
+	<button onclick="BrowserBridge.trayShake(false)">托盘闪动停止</button><br><br>
 	<button onclick="BrowserBridge.openKingDeeEas()">打开金蝶EAS客户端</button>
 	<button onclick="BrowserBridge.openLeTian()">打开乐天客户端</button>
-	<button onclick="showPrompt('新消息','张三给你发了一个表情')">右下角弹窗</button>
+	<button onclick="BrowserBridge.showPrompt('新消息','张三给你发了一个表情')">右下角弹窗</button>
     <br><br>
     <img id="img"  alt="图片预览区">
     <br>

@@ -1,4 +1,4 @@
-package com.yuecheng.workportal.bridge;
+package com.yuecheng.workportal.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,7 +25,7 @@ import javax.swing.JDialog;
  * @author Administrator 此工具类用法：实例化出对象，调用 void show("标题","内容") 方法. InfoUtil tool
  *         = new InfoUtil(); tool.show("标题","内容")
  */
-public class LowerRightPromptBridge {
+public class LowerRightPromptUI {
     private Point oldP; // 上一次坐标,拖动窗口时用
     private TipWindow tw = null; // 提示框
     private JPanel headPan = null;

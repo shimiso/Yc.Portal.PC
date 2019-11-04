@@ -39,6 +39,8 @@ import com.ufgov.special.component.screenCapture.subUIS.MagnifierWindow;
 import com.ufgov.special.component.screenCapture.subUIS.RectInfoWindow;
 import com.ufgov.special.component.screenCapture.subUIS.ToolBarWindow;
 import com.ufgov.special.component.util.ImageUtil;
+import com.yuecheng.workportal.tools.GraphicsUtils;
+import com.yuecheng.workportal.tools.ImageToBase64;
 
 /**
  * @describe 截屏功能
@@ -612,17 +614,17 @@ public class CaptureScreen extends JPanel {
 		}
 	}
 
-	public static String doAutoSave() {
-		File f = new File("d:/" + CaptureScreen.getTimestampAsStr() + ".png");
+	public static String getBase64Image() {
+		String imageBase64 = null;
+		Image image = snapShot();
 		try {
-			BufferedImage imgSelectedArea = ImageUtil.toBufferedImage(snapShot());
-			// 将screenshot对象写入图像文件
-			ImageIO.write(imgSelectedArea, "png", f);
-			filePath = f.getPath();
+			GraphicsUtils.setClipboardImage(image);
+			BufferedImage imgSelectedArea = ImageUtil.toBufferedImage(image);
+			imageBase64 = ImageToBase64.ImageToBase64(imgSelectedArea);
 			getParentDialog(null).setVisible(false);
-		} catch (Exception ee) {
+		} catch (Exception e) {
 		}
-		return f.getPath();
+		return imageBase64;
 	}
 
 	/**
@@ -631,8 +633,7 @@ public class CaptureScreen extends JPanel {
 	 * @date 2015年5月10日 上午12:25:11
 	 */
 	public static void doSaveToClipboard() {
-		snapShot();
-		filePath = "图片复制到粘贴板！";
+		GraphicsUtils.setClipboardImage(snapShot());
 		getParentDialog(null).setVisible(false);
 	}
 

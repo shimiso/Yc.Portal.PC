@@ -1,4 +1,4 @@
-package com.yuecheng.workportal;
+package com.yuecheng.workportal.ui;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
@@ -31,9 +31,8 @@ import com.teamdev.jxbrowser.chromium.PopupParams;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
-import com.yuecheng.workportal.bridge.CaptureScreenBridge;
-import com.yuecheng.workportal.bridge.LowerRightPromptBridge;
 
 /**
  * 
@@ -47,7 +46,7 @@ public class Main extends JFrame{
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
-	private TrayThread trayThread;
+	private TrayShakeUI trayThread;
 	
 	/**
 	 * 初始化窗体的方法
@@ -73,15 +72,8 @@ public class Main extends JFrame{
 			public void onFinishLoadingFrame(FinishLoadingEvent event) {
 				if (event.isMainFrame()) {
 					JSValue window = browser.executeJavaScriptAndReturnValue("window");
-					// 给jswindows对象添加一个扩展的属性
-					CaptureScreenBridge captureScreenBridge = new CaptureScreenBridge(Main.this);
-					window.asObject().setProperty("CaptureScreenBridge", captureScreenBridge);
-					
 					BrowserBridge browserBridge =new BrowserBridge(Main.this);
 					window.asObject().setProperty("BrowserBridge", browserBridge);
-					
-					LowerRightPromptBridge lowerRightPromptBridge =new LowerRightPromptBridge();
-					window.asObject().setProperty("LowerRightPromptBridge", lowerRightPromptBridge);
 				}
 			}
 		});
@@ -112,13 +104,6 @@ public class Main extends JFrame{
 			}
 		}
 
-		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// 添加窗口最小化事件,将托盘添加到操作系统的托盘
-		// this.addWindowListener(new WindowAdapter() {
-		// public void windowIconified(WindowEvent e) {
-		// addTrayIcon();
-		// }
-		// });
 		if (SystemTray.isSupported()) {
 			this.createTrayIcon();// 创建托盘对象
 			addTrayIcon();
@@ -222,7 +207,7 @@ public class Main extends JFrame{
 	 * 开始闪动托盘和任务栏
 	 */
 	public void startShake() {
-		trayThread = new TrayThread(this,trayIcon,icon);
+		trayThread = new TrayShakeUI(this,trayIcon,icon);
 		trayThread.start();
 	}
 	

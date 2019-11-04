@@ -1,5 +1,6 @@
 package com.yuecheng.workportal.tools;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +9,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Objects;
+
+import javax.imageio.ImageIO;
 
 import sun.misc.BASE64Encoder;
 
@@ -94,5 +97,26 @@ public class ImageToBase64 {
 		// System.out.println("本地图片转换Base64:" +
 		// encoder.encode(Objects.requireNonNull(data)));
 	}
+	
+	
+	public static String ImageToBase64(BufferedImage image) {
+		// 转base64
+		BASE64Encoder encoder = new BASE64Encoder();
+		String png_base64 = null;
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();// io流
+			ImageIO.write(image, "png", baos);// 写入流中
+			byte[] bytes = baos.toByteArray();// 转换成字节
+			png_base64 = encoder.encodeBuffer(bytes).trim();// 转换成base64串
+			if(png_base64!=null) {
+				png_base64 = png_base64.replaceAll("[\\s*\t\n\r]", "");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		return png_base64;
+	}
+	
+
 
 }

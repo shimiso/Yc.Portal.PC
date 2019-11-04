@@ -1,15 +1,15 @@
-package com.yuecheng.workportal;
+package com.yuecheng.workportal.ui;
 
 import java.awt.TrayIcon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class TrayThread extends Thread {
+public class TrayShakeUI extends Thread {
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
 	JFrame mainJFrame;
 	
-	public TrayThread(JFrame mainJFrame, TrayIcon trayIcon,ImageIcon icon) {
+	public TrayShakeUI(JFrame mainJFrame, TrayIcon trayIcon,ImageIcon icon) {
 		this.mainJFrame = mainJFrame;
 		this.trayIcon = trayIcon;
 		this.icon = icon;

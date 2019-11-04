@@ -26,6 +26,7 @@ import com.ufgov.special.component.screenCapture.CaptureScreen;
 import com.ufgov.special.component.util.ColorUtil;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
+import com.yuecheng.workportal.tools.GraphicsUtils;
 import com.yuecheng.workportal.tools.ImageToBase64;
 
 public class ToolBarWindow {
@@ -112,17 +113,14 @@ public class ToolBarWindow {
         else if ("SAVE".equals(actionCommand))
           CaptureScreen.doSaveAs();
         else if ("OK".equals(actionCommand)) {
-        	String path=CaptureScreen.doAutoSave();
-        	String imageBase64 = ImageToBase64.ImageToBase64(path);
+        	String imageBase64=CaptureScreen.getBase64Image();
         	System.out.println(imageBase64);
         	String method = String.format(BrowserBridge.shotPhotoCallback,imageBase64);
         	BrowserManager.getInstance().getBrowser().executeJavaScript(method);
+//        	CaptureScreen.doSaveToClipboard();
         }else if ("QUIT".equals(actionCommand))
             CaptureScreen.doQuit();
         }
-//          CaptureScreen.doSaveToClipboard();
-//        	CaptureScreen.doAutoSave();
-        
     });
   }
 
