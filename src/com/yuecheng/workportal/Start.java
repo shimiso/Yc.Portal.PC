@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.jtattoo.plaf.aluminium.AluminiumLookAndFeel;
 import com.teamdev.jxbrowser.chromium.ba;
 import com.yuecheng.workportal.ui.Main;
 
