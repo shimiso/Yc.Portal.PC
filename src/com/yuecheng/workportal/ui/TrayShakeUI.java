@@ -8,15 +8,17 @@ public class TrayShakeUI extends Thread {
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
 	JFrame mainJFrame;
+	Boolean isShaking = true;
 	
 	public TrayShakeUI(JFrame mainJFrame, TrayIcon trayIcon,ImageIcon icon) {
 		this.mainJFrame = mainJFrame;
 		this.trayIcon = trayIcon;
 		this.icon = icon;
+		this.isShaking = true;
 	}
 	@Override
 	public void run() {
-		while (true) {
+		while (isShaking) {
 			try {
 				// 闪动消息的空白时间
 				mainJFrame.setTitle("");
@@ -32,11 +34,15 @@ public class TrayShakeUI extends Thread {
 		}
 	}
 	
+	public boolean isShaking() {
+		return isShaking;
+	}
+	
 	public void stopShake() {
 		// 闪动消息的提示图片
 		this.trayIcon.setImage(icon.getImage());
 		mainJFrame.setTitle("乐成工作台");
-		stop();
+		isShaking = false;
 	}
 
 }

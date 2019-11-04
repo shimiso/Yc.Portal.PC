@@ -48,20 +48,19 @@ public class DesktopAppUtils {
 	public static boolean openLeTian() {
 
 		try {
-			RegistryKey registryKey = new RegistryKey(
-					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
-					"SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Product_Name");
-			RegistryValue registryValue = registryKey.getValue("UninstallString");
-			System.out.println(registryValue);
-			
-			if(registryValue == null||registryValue.toString()==null||registryValue.toString().indexOf("Value:")<=-1) {
-				return false;
-			}else {
-				String value = registryValue.toString().trim().replaceAll(" ", "\" \"");
+//			RegistryKey registryKey = new RegistryKey(
+//					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
+//					"SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Product_Name");
+//			RegistryValue registryValue = registryKey.getValue("UninstallString");
+//			System.out.println(registryValue);
+//			if(registryValue == null||registryValue.toString()==null||registryValue.toString().indexOf("Value:")<=-1) {
+//				return false;
+//			}else {
+//				String value = registryValue.toString().trim().replaceAll(" ", "\" \"");
 				String openCmd=String.format(CMD_OPEN_LETIAN, "D:\\Program\" \"Files\" \"(x86)\\Rtwyjqwl\\Rtwy_6_KFWL.exe");   
 				System.out.println(openCmd);
 				CMDUtil.excuteCMDCommand(openCmd);
-			}
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

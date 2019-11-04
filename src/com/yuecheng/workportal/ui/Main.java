@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.net.URL;
 import java.util.Enumeration;
 
@@ -59,6 +61,38 @@ public class Main extends JFrame{
 		this.setSize(1280, 800);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
+		this.addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				stopShake();
+			}
+
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+			}
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent arg0) {
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent arg0) {
+			}
+
+			@Override
+			public void windowIconified(WindowEvent arg0) {
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+			}
+			
+		});
 
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.add(view, BorderLayout.CENTER);
@@ -93,8 +127,8 @@ public class Main extends JFrame{
 				return null;
 			}
 		});
-		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
-//		browser.loadURL("http://yctestportalweb.yuechenggroup.com/");
+//		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
+		browser.loadURL("http://office.yuechenggroup.com/");
 		Font font = new Font("微软雅黑", Font.PLAIN, 12);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
@@ -207,6 +241,7 @@ public class Main extends JFrame{
 	 * 开始闪动托盘和任务栏
 	 */
 	public void startShake() {
+		stopShake();
 		trayThread = new TrayShakeUI(this,trayIcon,icon);
 		trayThread.start();
 	}
@@ -217,6 +252,7 @@ public class Main extends JFrame{
 	public void stopShake() {
 		if(trayThread!=null) {
 			trayThread.stopShake();
+			trayThread.stop();
 			trayThread = null;
 		}
 	}
