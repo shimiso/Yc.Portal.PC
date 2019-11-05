@@ -15,8 +15,9 @@ public class BrowserBridge {
 	//程序主界面
 	Main mainFrame;
 	//截屏后的回调函数
-	public static String shotPhotoCallback ="shotPhotoCallback('%s')";
-	
+	public static String shotPhotoCallback = "shotPhotoCallback('%s')";
+	//打开PC端回调回调函数
+	public static String openWinAPPCallback ="openWinAPPCallback('%s')";
 	
 	public BrowserBridge(Main mainFrame) {
 		this.mainFrame = mainFrame;

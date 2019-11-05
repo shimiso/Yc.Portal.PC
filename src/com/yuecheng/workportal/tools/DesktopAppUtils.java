@@ -2,6 +2,8 @@ package com.yuecheng.workportal.tools;
 
 import com.registry.RegistryKey;
 import com.registry.RegistryValue;
+import com.yuecheng.workportal.BrowserManager;
+import com.yuecheng.workportal.bridge.BrowserBridge;
 
 public class DesktopAppUtils {
 	
@@ -11,8 +13,10 @@ public class DesktopAppUtils {
 		openLeTian();
 	}
 
-	public static boolean openKingDeeEas() {
-
+	/**
+	 * 打开金蝶EAS
+	 */
+	public static void openKingDeeEas() {
 		try {
 			RegistryKey registryKey = new RegistryKey(
 					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
@@ -27,7 +31,8 @@ public class DesktopAppUtils {
 			System.out.println(registryValue);
 			
 			if(registryValue == null) {
-				return false;
+				BrowserManager.getInstance().getBrowser().
+		    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
 			}else {
 				String value = registryValue.toString();
 				int valueIndex = value.lastIndexOf("Value:");
@@ -39,32 +44,39 @@ public class DesktopAppUtils {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			BrowserManager.getInstance().getBrowser().
+	    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
 		}
-		return true;
+    	
 	}
 	
-	
-	public static boolean openLeTian() {
+	/**
+	 * 打开乐天
+	 */
+	public static void openLeTian() {
 
 		try {
-//			RegistryKey registryKey = new RegistryKey(
-//					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
-//					"SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Product_Name");
-//			RegistryValue registryValue = registryKey.getValue("UninstallString");
-//			System.out.println(registryValue);
-//			if(registryValue == null||registryValue.toString()==null||registryValue.toString().indexOf("Value:")<=-1) {
-//				return false;
-//			}else {
-//				String value = registryValue.toString().trim().replaceAll(" ", "\" \"");
-				String openCmd=String.format(CMD_OPEN_LETIAN, "D:\\Program\" \"Files\" \"(x86)\\Rtwyjqwl\\Rtwy_6_KFWL.exe");   
+			RegistryKey registryKey = new RegistryKey(
+					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
+					"SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Product_Name");
+			RegistryValue registryValue = registryKey.getValue("UninstallString");
+			System.out.println(registryValue);
+			if(registryValue == null||registryValue.toString()==null||registryValue.toString().indexOf("exe \"")<=-1) {
+				BrowserManager.getInstance().getBrowser().
+		    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
+			}else {
+				String value = registryValue.toString();
+				int valueIndex = value.lastIndexOf("exe \"");
+				int endIndex = value.lastIndexOf("\\");//D:\\Program\" \"Files\" \"(x86)\\Rtwyjqwl\\Rtwy_6_KFWL.exe
+				String path =value.substring(valueIndex + 5, endIndex).trim().replaceAll(" ", "\\\" \\\"");
+				String openCmd=String.format(CMD_OPEN_LETIAN, path + "\\Rtwy_6_KFWL.exe");   
 				System.out.println(openCmd);
 				CMDUtil.excuteCMDCommand(openCmd);
-//			}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			BrowserManager.getInstance().getBrowser().
+	    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
 		}
-		return true;
 	}
 }
