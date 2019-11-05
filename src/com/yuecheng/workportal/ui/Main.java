@@ -93,7 +93,8 @@ public class Main extends JFrame{
 			}
 			
 		});
-
+//		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+//		this.setLocationByPlatform(true); 
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		this.add(view, BorderLayout.CENTER);
 		
@@ -238,12 +239,14 @@ public class Main extends JFrame{
 	}
 
 	/**
-	 * 开始闪动托盘和任务栏
+	 * 主窗口不是最前置活跃就开始闪动托盘和任务栏
 	 */
 	public void startShake() {
-		stopShake();
-		trayThread = new TrayShakeUI(this,trayIcon,icon);
-		trayThread.start();
+		if(!this.isActive()&&SystemTray.isSupported()){
+			stopShake();
+			trayThread = new TrayShakeUI(this,trayIcon,icon);
+			trayThread.start();
+		}
 	}
 	
 	/**
