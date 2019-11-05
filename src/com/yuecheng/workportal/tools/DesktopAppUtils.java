@@ -54,7 +54,6 @@ public class DesktopAppUtils {
 	 * 打开乐天
 	 */
 	public static void openLeTian() {
-
 		try {
 			RegistryKey registryKey = new RegistryKey(
 					RegistryKey.getRootKeyForIndex(RegistryKey.HKEY_LOCAL_MACHINE_INDEX),
@@ -73,6 +72,21 @@ public class DesktopAppUtils {
 				System.out.println(openCmd);
 				CMDUtil.excuteCMDCommand(openCmd);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BrowserManager.getInstance().getBrowser().
+	    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
+		}
+	}
+	
+	/**
+	 * 打开邮箱
+	 */
+	public static void openOutLookEmail() {
+		try {
+			// java调用outllook
+			Runtime.getRuntime()
+					.exec("rundll32 url.dll,FileProtocolHandler mailto:yangfei_luck@163.com?subject=&body=");
 		} catch (Exception e) {
 			e.printStackTrace();
 			BrowserManager.getInstance().getBrowser().
