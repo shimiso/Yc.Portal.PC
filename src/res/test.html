@@ -12,6 +12,9 @@
             var url = 'data:image/gif;base64,'+data;
             imgPre.src = url;
         }
+        function getVersionCallback(versionCode,versionName) {
+        	document.getElementById('version').innerHTML='版本号：'+versionCode+'，版本名称：'+versionName;
+        }
     </script>
 </head>
 <body>
@@ -24,9 +27,12 @@
 	<button onclick="BrowserBridge.trayShake(false)">托盘闪动停止</button><br><br>
 	<button onclick="BrowserBridge.openKingDeeEas()">打开金蝶EAS客户端</button>
 	<button onclick="BrowserBridge.openLeTian()">打开乐天客户端</button>
+	<button onclick="BrowserBridge.openOutLookEmail()">打开Outlook邮箱</button>
 	<button onclick="BrowserBridge.showPrompt('新消息','张三给你发了一个表情')">右下角弹窗</button>
+	<button onclick="BrowserBridge.getVersion()">获取当前版本</button>
     <br><br>
     <img id="img"  alt="图片预览区">
     <br>
+     <div id="version"></div>
 </body>
 </html>
