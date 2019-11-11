@@ -45,6 +45,7 @@ import com.yuecheng.workportal.bridge.BrowserBridge;
  */
 public class Main extends JFrame{
 	private static final long serialVersionUID = -3115128552716619277L;
+	private static final String SERVER_URL = "http://office.yuechenggroup.com/";
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
@@ -58,7 +59,7 @@ public class Main extends JFrame{
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 //        this.setUndecorated(true);
 		this.setTitle("乐成工作台");
-		this.setSize(1280, 800);
+		this.setSize(1200, 768);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
 		this.addWindowListener(new WindowListener() {
@@ -114,23 +115,23 @@ public class Main extends JFrame{
 		});
 		
 		//网页跳出拦截
-		browser.setPopupHandler(new PopupHandler() {
-			@Override
-			public PopupContainer handlePopup(PopupParams popupParams) {
-//				browser.loadURL(popupParams.getURL());
-				//原理: 通过执行CMD命令,来实现
-	            String str = "cmd /c start iexplore "+popupParams.getURL();
-	            try {
-	                Runtime.getRuntime().exec(str);
-	            } catch (Exception ex) {
-	                ex.printStackTrace();
-	            }
-				return null;
-			}
-		});
-//		browser.loadURL(getRes("res/test.html").toString().replace("file:/", ""));
-		browser.loadURL("http://office.yuechenggroup.com/");
-		Font font = new Font("微软雅黑", Font.PLAIN, 12);
+//		browser.setPopupHandler(new PopupHandler() {
+//			@Override
+//			public PopupContainer handlePopup(PopupParams popupParams) {
+////				browser.loadURL(popupParams.getURL());
+//				//原理: 通过执行CMD命令,来实现
+//	            String str = "cmd /c start iexplore "+popupParams.getURL();
+//	            try {
+//	                Runtime.getRuntime().exec(str);
+//	            } catch (Exception ex) {
+//	                ex.printStackTrace();
+//	            }
+//				return null;
+//			}
+//		});
+//		browser.loadURL(getRes("res/test.html").toString());
+		browser.loadURL(SERVER_URL);
+		Font font = new Font("微软雅黑", Font.PLAIN, 14);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
 			Object key = keys.nextElement();
@@ -192,7 +193,7 @@ public class Main extends JFrame{
 		server.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 消息对话框无返回, 仅做通知作用
-				String inputContent = JOptionPane.showInputDialog(Main.this,"输入URL地址","http://yctestportalweb.yuechenggroup.com/");
+				String inputContent = JOptionPane.showInputDialog(Main.this,"输入URL地址",SERVER_URL);
 				if(inputContent!=null&&!inputContent.trim().equals("")) {
 					BrowserManager.getInstance().getBrowser().loadURL(inputContent);
 				}else {
@@ -242,7 +243,7 @@ public class Main extends JFrame{
 	 * 主窗口不是最前置活跃就开始闪动托盘和任务栏
 	 */
 	public void startShake() {
-		if(!this.isActive()&&SystemTray.isSupported()){
+		if(SystemTray.isSupported()){
 			stopShake();
 			trayThread = new TrayShakeUI(this,trayIcon,icon);
 			trayThread.start();
