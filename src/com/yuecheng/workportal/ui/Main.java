@@ -2,6 +2,7 @@ package com.yuecheng.workportal.ui;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemTray;
@@ -55,7 +56,8 @@ public class Main extends JFrame{
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 //        this.setUndecorated(true);
 		this.setTitle("乐成工作台");
-		this.setSize(1200, 768);
+		this.setMinimumSize(new Dimension(1024, 720)); 
+		this.setSize(1280, 768);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
 		this.addWindowListener(new WindowListener() {

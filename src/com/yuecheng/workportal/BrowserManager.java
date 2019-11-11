@@ -1,6 +1,7 @@
 package com.yuecheng.workportal;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
@@ -74,7 +75,8 @@ public class BrowserManager {
 
 								final JFrame frame = new JFrame();
 								frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-								frame.setSize(1200, 768);
+								frame.setMinimumSize(new Dimension(1024, 720)); 
+								frame.setSize(1280, 768);
 								Image image = frame.getToolkit().getImage(getRes("res/tray.png"));
 								frame.setIconImage(image);
 								frame.add(browserView, BorderLayout.CENTER);
