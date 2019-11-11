@@ -1,6 +1,7 @@
 package com.yuecheng.workportal.ui;
 
 import java.awt.TrayIcon;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 

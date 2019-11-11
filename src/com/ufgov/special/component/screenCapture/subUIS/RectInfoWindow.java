@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Window;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;

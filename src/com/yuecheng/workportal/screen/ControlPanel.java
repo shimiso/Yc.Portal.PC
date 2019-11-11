@@ -21,7 +21,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import com.ufgov.special.component.screenCapture.CaptureScreen;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
 import com.yuecheng.workportal.tools.GraphicsUtils;

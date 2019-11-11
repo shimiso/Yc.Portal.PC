@@ -20,16 +20,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JRootPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.JSValue;
-import com.teamdev.jxbrowser.chromium.PopupContainer;
-import com.teamdev.jxbrowser.chromium.PopupHandler;
-import com.teamdev.jxbrowser.chromium.PopupParams;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -114,21 +110,6 @@ public class Main extends JFrame{
 			}
 		});
 		
-		//网页跳出拦截
-//		browser.setPopupHandler(new PopupHandler() {
-//			@Override
-//			public PopupContainer handlePopup(PopupParams popupParams) {
-////				browser.loadURL(popupParams.getURL());
-//				//原理: 通过执行CMD命令,来实现
-//	            String str = "cmd /c start iexplore "+popupParams.getURL();
-//	            try {
-//	                Runtime.getRuntime().exec(str);
-//	            } catch (Exception ex) {
-//	                ex.printStackTrace();
-//	            }
-//				return null;
-//			}
-//		});
 //		browser.loadURL(getRes("res/test.html").toString());
 		browser.loadURL(SERVER_URL);
 		Font font = new Font("微软雅黑", Font.PLAIN, 14);
@@ -196,8 +177,6 @@ public class Main extends JFrame{
 				String inputContent = JOptionPane.showInputDialog(Main.this,"输入URL地址",SERVER_URL);
 				if(inputContent!=null&&!inputContent.trim().equals("")) {
 					BrowserManager.getInstance().getBrowser().loadURL(inputContent);
-				}else {
-					JOptionPane.showMessageDialog(null, "地址不能为空", "提示", JOptionPane.WARNING_MESSAGE );
 				}
 			}
 		});

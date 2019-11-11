@@ -25,6 +25,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Calendar;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -35,6 +36,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileSystemView;
+
 import com.ufgov.special.component.screenCapture.subUIS.MagnifierWindow;
 import com.ufgov.special.component.screenCapture.subUIS.RectInfoWindow;
 import com.ufgov.special.component.screenCapture.subUIS.ToolBarWindow;

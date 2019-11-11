@@ -3,7 +3,6 @@ package com.yuecheng.workportal.bridge;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.screen.Capturer;
 import com.yuecheng.workportal.tools.DesktopAppUtils;
-import com.yuecheng.workportal.ui.CaptureScreenUI;
 import com.yuecheng.workportal.ui.LowerRightPromptUI;
 import com.yuecheng.workportal.ui.Main;
 

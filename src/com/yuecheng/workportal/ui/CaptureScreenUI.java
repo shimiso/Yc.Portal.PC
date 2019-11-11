@@ -3,21 +3,12 @@ package com.yuecheng.workportal.ui;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dialog;
-import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.Window;
 
-import javax.swing.Icon;
 import javax.swing.JFrame;
-import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 
-import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import com.ufgov.special.component.screenCapture.CaptureScreen;
-import com.ufgov.special.component.screenCapture.CaptureScreenButton;
-import com.ufgov.special.component.test.testScreenCaptureButton;
-import com.yuecheng.workportal.screen.Capturer;
 
 public class CaptureScreenUI {
 	JFrame frame;

@@ -26,8 +26,6 @@ import com.ufgov.special.component.screenCapture.CaptureScreen;
 import com.ufgov.special.component.util.ColorUtil;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
-import com.yuecheng.workportal.tools.GraphicsUtils;
-import com.yuecheng.workportal.tools.ImageToBase64;
 
 public class ToolBarWindow {
 

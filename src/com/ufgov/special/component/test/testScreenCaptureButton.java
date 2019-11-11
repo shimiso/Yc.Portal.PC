@@ -2,21 +2,18 @@ package com.ufgov.special.component.test;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-
 import java.awt.FlowLayout;
-
-import com.ufgov.special.component.screenCapture.CaptureScreenButton;
-
-import javax.swing.JTextField;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+
+import com.ufgov.special.component.screenCapture.CaptureScreenButton;
 
 public class testScreenCaptureButton extends JFrame {
 
