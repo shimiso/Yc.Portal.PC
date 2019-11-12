@@ -23,8 +23,10 @@ import javax.swing.JPanel;
 
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
+import com.yuecheng.workportal.tools.Constant;
 import com.yuecheng.workportal.tools.GraphicsUtils;
 import com.yuecheng.workportal.tools.ImageToBase64;
+import com.yuecheng.workportal.ui.Main;
 
 
 public class ControlPanel extends JPanel {
@@ -68,7 +70,7 @@ public class ControlPanel extends JPanel {
 			} 
 		}) ;
 		saveButton.setRolloverIcon(save_entered) ;
-		saveButton.setToolTipText("保存截图") ;
+		saveButton.setToolTipText(Main.RES_BUNDLE.getString(Constant.Save_Capture));//保存截图
 		
 		add(saveButton);
 		
@@ -86,7 +88,7 @@ public class ControlPanel extends JPanel {
 			}
 		}) ;
 		okButton.setRolloverIcon(ok_entered) ;
-		okButton.setToolTipText("完成截图") ;
+		okButton.setToolTipText(Main.RES_BUNDLE.getString(Constant.OK_Capture));//完成截图
 
 		add(okButton);
 		
@@ -96,7 +98,7 @@ public class ControlPanel extends JPanel {
 			}
 		}) ;
 		cancelButton.setRolloverIcon(cancel_entered) ;
-		cancelButton.setToolTipText("退出截图") ;
+		cancelButton.setToolTipText(Main.RES_BUNDLE.getString(Constant.Exit_Capture));//退出截图
 		add(cancelButton);
 	}
 	

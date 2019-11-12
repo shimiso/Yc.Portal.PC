@@ -15,6 +15,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -32,7 +34,7 @@ import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
-
+import com.yuecheng.workportal.tools.Constant;
 /**
  * 
  * 创建闪动的托盘图像
@@ -47,6 +49,7 @@ public class Main extends JFrame{
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
 	private TrayShakeUI trayThread;
+	public static ResourceBundle RES_BUNDLE = ResourceBundle.getBundle("msg_zh_CN",Locale.getDefault());
 	
 	/**
 	 * 初始化窗体的方法
@@ -55,7 +58,7 @@ public class Main extends JFrame{
 		 // Specifies remote debugging port for remote Chrome Developer Tools.
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 //        this.setUndecorated(true);
-		this.setTitle("乐成工作台");
+		this.setTitle(RES_BUNDLE.getString(Constant.MainFrame_Title));
 		this.setMinimumSize(new Dimension(1200, 720)); 
 		this.setSize(1280, 768);
 		Browser browser = BrowserManager.getInstance().getBrowser();
@@ -112,8 +115,8 @@ public class Main extends JFrame{
 			}
 		});
 		
-//		browser.loadURL(getRes("res/test.html").toString());
-		browser.loadURL(SERVER_URL);
+		browser.loadURL(getRes("res/test.html").toString());
+//		browser.loadURL(SERVER_URL);
 		Font font = new Font("微软雅黑", Font.PLAIN, 14);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
@@ -146,21 +149,25 @@ public class Main extends JFrame{
 	 * 创建系统托盘的对象 步骤: 1,获得当前操作系统的托盘对象 2,创建弹出菜单popupMenu 3,创建托盘图标icon
 	 * 4,创建系统的托盘对象trayIcon
 	 */
+	JMenuItem openItem = null;
+	JMenuItem debugItem  = null;
+	JMenuItem serverItem  = null;
+	JMenuItem exitItem  = null;
 	public void createTrayIcon() {
 		sysTray = SystemTray.getSystemTray();// 获得当前操作系统的托盘对象
 		icon = new ImageIcon(getRes("res/tray.png"));// 托盘图标
 		JPopupMenu popupMenu = new JPopupMenu();// 弹出菜单
 		JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-		JMenuItem mi = new JMenuItem("打开");
-		JMenuItem debug = new JMenuItem("调试模式");
-		JMenuItem server = new JMenuItem("切换服务");
-		JMenuItem exit = new JMenuItem("退出");
-		popupMenu.add(mi);
-		popupMenu.add(debug);
-		popupMenu.add(server);
-		popupMenu.add(exit);
+		openItem = new JMenuItem(RES_BUNDLE.getString(Constant.Open_Item));
+		debugItem = new JMenuItem(RES_BUNDLE.getString(Constant.Debug_Item));
+		serverItem = new JMenuItem(RES_BUNDLE.getString(Constant.Server_Item));
+		exitItem = new JMenuItem(RES_BUNDLE.getString(Constant.Exit_Item));
+		popupMenu.add(openItem);
+		popupMenu.add(debugItem);
+		popupMenu.add(serverItem);
+		popupMenu.add(exitItem);
 		// 为弹出菜单项添加事件
-		mi.addActionListener(new ActionListener() {
+		openItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.this.setExtendedState(JFrame.NORMAL);
 				Main.this.setVisible(true); // 显示窗口
@@ -168,12 +175,12 @@ public class Main extends JFrame{
 				stopShake(); // 消息打开了
 			}
 		});
-		debug.addActionListener(new ActionListener() {
+		debugItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				debugBrowser(true);
 			}
 		});
-		server.addActionListener(new ActionListener() {
+		serverItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 消息对话框无返回, 仅做通知作用
 				String inputContent = JOptionPane.showInputDialog(Main.this,"输入URL地址",SERVER_URL);
@@ -182,12 +189,12 @@ public class Main extends JFrame{
 				}
 			}
 		});
-		exit.addActionListener(new ActionListener() {
+		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		trayIcon = new TrayIcon(icon.getImage(), "乐成工作平台");
+		trayIcon = new TrayIcon(icon.getImage(), RES_BUNDLE.getString(Constant.MainFrame_Title));
 		trayIcon.setImageAutoSize(true);
 		/** 添加鼠标监听器，当鼠标在托盘图标上双击时，默认显示窗口 */
 		trayIcon.addMouseListener(new MouseAdapter() {
@@ -275,5 +282,15 @@ public class Main extends JFrame{
 			if(debugFrame!=null)
 				debugFrame.dispose();
 		}
+	}
+
+	public void switchLanguage(ResourceBundle bundle) {
+		this.RES_BUNDLE = bundle;
+		this.setTitle(bundle.getString(Constant.MainFrame_Title));
+		this.openItem.setText(bundle.getString(Constant.Open_Item));
+		this.debugItem.setText(bundle.getString(Constant.Debug_Item));
+		this.serverItem.setText(bundle.getString(Constant.Server_Item));
+		this.exitItem.setText(bundle.getString(Constant.Exit_Item));
+		this.trayIcon.setToolTip(bundle.getString(Constant.MainFrame_Title));
 	}
 }

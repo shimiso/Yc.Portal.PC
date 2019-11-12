@@ -1,6 +1,8 @@
 package com.yuecheng.workportal.bridge;
 
+import java.util.Locale;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.screen.Capturer;
@@ -110,5 +112,20 @@ public class BrowserBridge {
 		System.out.println("操作系统的版本号：" + props.getProperty("os.version"));
 		BrowserManager.getInstance().getBrowser()
 				.executeJavaScript(String.format(BrowserBridge.getVersionCallback, osName,versionCode, versionName));
+	}
+	
+	/**
+	 * 切换中英文
+	 * @param language zh_CN 中文   en_US  英文
+	 */
+	public void switchLanguage(String language) {
+		Locale locale = Locale.getDefault();// 获取地区:默认
+		ResourceBundle bundle = ResourceBundle.getBundle("msg_zh_CN",locale);
+		if(language!=null&&language.equals("zh_CN")) {
+			 bundle = ResourceBundle.getBundle("msg_zh_CN",locale);
+		}else if(language!=null&&language.equals("en_US")) {
+			 bundle = ResourceBundle.getBundle("msg_en_US",locale);
+		}
+		mainFrame.switchLanguage(bundle);
 	}
 }
