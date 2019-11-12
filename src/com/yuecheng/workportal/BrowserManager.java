@@ -75,7 +75,7 @@ public class BrowserManager {
 
 								final JFrame frame = new JFrame();
 								frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-								frame.setMinimumSize(new Dimension(1024, 720)); 
+								frame.setMinimumSize(new Dimension(1200, 720)); 
 								frame.setSize(1280, 768);
 								Image image = frame.getToolkit().getImage(getRes("res/tray.png"));
 								frame.setIconImage(image);

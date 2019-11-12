@@ -56,7 +56,7 @@ public class Main extends JFrame{
         BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 //        this.setUndecorated(true);
 		this.setTitle("乐成工作台");
-		this.setMinimumSize(new Dimension(1024, 720)); 
+		this.setMinimumSize(new Dimension(1200, 720)); 
 		this.setSize(1280, 768);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
@@ -112,8 +112,8 @@ public class Main extends JFrame{
 			}
 		});
 		
-		browser.loadURL(getRes("res/test.html").toString());
-//		browser.loadURL(SERVER_URL);
+//		browser.loadURL(getRes("res/test.html").toString());
+		browser.loadURL(SERVER_URL);
 		Font font = new Font("微软雅黑", Font.PLAIN, 14);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {
