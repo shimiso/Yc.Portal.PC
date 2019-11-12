@@ -80,7 +80,7 @@ public class BrowserBridge {
 	 *            内容
 	 */
 	long mLastClickTime = 0;
-	public void showPrompt(String title, String content) {
+	public void showRightCornerPopMessage(String title, String content) {
 		 long nowTime = System.currentTimeMillis();
          if (nowTime - mLastClickTime > 4000L) {
         	 new RightCornerPopMessage().open(title,content);
