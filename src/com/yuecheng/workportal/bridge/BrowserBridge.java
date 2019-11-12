@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.screen.Capturer;
 import com.yuecheng.workportal.tools.DesktopAppUtils;
-import com.yuecheng.workportal.ui.LowerRightPromptUI;
 import com.yuecheng.workportal.ui.Main;
+import com.yuecheng.workportal.ui.RightCornerPopMessage;
 
 /**
  * JS和原生桥接入口
@@ -27,7 +27,6 @@ public class BrowserBridge {
 	public static String openWinAPPCallback = "openWinAPPCallback('%s')";
 	// 打开PC端回调回调函数
 	public static String getVersionCallback = "getVersionCallback('%1s','%2s','%3s')";
-	LowerRightPromptUI lowerRightPromptBridge = null;
 
 	public BrowserBridge(Main mainFrame) {
 		this.mainFrame = mainFrame;
@@ -82,13 +81,11 @@ public class BrowserBridge {
 	 */
 	long mLastClickTime = 0;
 	public void showPrompt(String title, String content) {
-//		 long nowTime = System.currentTimeMillis();
-//         if (nowTime - mLastClickTime > 1000L) {
-//        	 if(lowerRightPromptBridge==null) {
-        		lowerRightPromptBridge = new LowerRightPromptUI();
-//     		} 
-     		lowerRightPromptBridge.show(title, content);
-//         }  
+		 long nowTime = System.currentTimeMillis();
+         if (nowTime - mLastClickTime > 4000L) {
+        	 new RightCornerPopMessage().open(title,content);
+        	 mLastClickTime = nowTime;
+         }  
 	}
 
 	/**
