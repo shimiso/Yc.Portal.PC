@@ -112,8 +112,8 @@ public class Main extends JFrame{
 			}
 		});
 		
-//		browser.loadURL(getRes("res/test.html").toString());
-		browser.loadURL(SERVER_URL);
+		browser.loadURL(getRes("res/test.html").toString());
+//		browser.loadURL(SERVER_URL);
 		Font font = new Font("微软雅黑", Font.PLAIN, 14);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {

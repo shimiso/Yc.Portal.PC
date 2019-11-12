@@ -85,12 +85,16 @@ public class DesktopAppUtils {
 	public static void openOutLookEmail() {
 		try {
 			// java调用outllook
-			Runtime.getRuntime()
-					.exec("rundll32 url.dll,FileProtocolHandler mailto:yangfei_luck@163.com?subject=&body=");
+			CMDUtil.excuteCMDCommand("cmd /c start outlook");
 		} catch (Exception e) {
 			e.printStackTrace();
-			BrowserManager.getInstance().getBrowser().
-	    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
+			try {
+				CMDUtil.excuteCMDCommand("rundll32 url.dll,FileProtocolHandler mailto:");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				BrowserManager.getInstance().getBrowser().
+		    	executeJavaScript(String.format(BrowserBridge.openWinAPPCallback,"1"));
+			}
 		}
 	}
 }
