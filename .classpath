@@ -3,10 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="libs/JTattoo.jar"/>
 	<classpathentry kind="lib" path="libs/jxbrowser-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-linux64-6.21.jar"/>
 	<classpathentry kind="lib" path="libs/jxbrowser-mac-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win32-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win64-6.21.jar"/>
 	<classpathentry kind="lib" path="libs/license.jar"/>
 	<classpathentry kind="lib" path="libs/rt.jar"/>
 	<classpathentry kind="lib" path="libs/substance.jar"/>

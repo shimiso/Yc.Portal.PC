@@ -12,8 +12,8 @@ import com.yuecheng.workportal.ui.Main;
  *
  */
 public class BrowserBridge {
-	public static String versionCode = "2";
-	public static String versionName = "Dev_1.0.2";
+	public static String versionCode = "3";
+	public static String versionName = "Beta_1.0.3";
 	//程序主界面
 	Main mainFrame;
 	//截屏后的回调函数
