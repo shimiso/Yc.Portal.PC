@@ -26,24 +26,17 @@ import javax.swing.SwingConstants;
  *         = new InfoUtil(); tool.show("标题","内容")
  */
 public class LowerRightPromptUI {
-    private Point oldP; // 上一次坐标,拖动窗口时用
     private TipWindow tw = null; // 提示框
     private JPanel headPan = null;
     private JPanel feaPan = null;
     private JPanel btnPan = null;
-    private JLabel title = null; // 栏目名称
     private JLabel head = null; // 蓝色标题
     private JLabel close = null; // 关闭按钮
     private JTextArea feature = null; // 内容
     private JScrollPane jfeaPan = null;
-    private JLabel releaseLabel = null; // 发布时间
     private JButton sure = null;
     private String titleT = null;
     private String word = null;
-    private String time = null;
-
-    // private SimpleDateFormat sdf = new
-    // SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public void init() {
         // 新建300x180的消息提示框
@@ -51,7 +44,6 @@ public class LowerRightPromptUI {
         headPan = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         feaPan = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         btnPan = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        title = new JLabel("欢迎使用本系统");
         head = new JLabel(titleT);
         close = new JLabel(" x");
         feature = new JTextArea(word);
@@ -62,11 +54,6 @@ public class LowerRightPromptUI {
         // 设置提示框的边框,宽度和颜色
         tw.getRootPane().setBorder(
                 BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
-        title.setPreferredSize(new Dimension(260, 26));
-        title.setVerticalTextPosition(JLabel.CENTER);
-        title.setHorizontalTextPosition(JLabel.CENTER);
-        title.setFont(new Font("宋体", Font.PLAIN, 12));
-        title.setForeground(Color.black);
 
         close.setFont(new Font("Arial", Font.BOLD, 15));
         close.setPreferredSize(new Dimension(20, 20));
