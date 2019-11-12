@@ -80,14 +80,15 @@ public class BrowserBridge {
 	 * @param content
 	 *            内容
 	 */
+	long mLastClickTime = 0;
 	public void showPrompt(String title, String content) {
-		if(lowerRightPromptBridge!=null) {
-			lowerRightPromptBridge.close();
-		}else {
-			lowerRightPromptBridge = new LowerRightPromptUI();
-		}
-		lowerRightPromptBridge.show(title, content);
-		
+//		 long nowTime = System.currentTimeMillis();
+//         if (nowTime - mLastClickTime > 1000L) {
+//        	 if(lowerRightPromptBridge==null) {
+        		lowerRightPromptBridge = new LowerRightPromptUI();
+//     		} 
+     		lowerRightPromptBridge.show(title, content);
+//         }  
 	}
 
 	/**

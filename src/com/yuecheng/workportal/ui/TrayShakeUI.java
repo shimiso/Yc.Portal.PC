@@ -3,15 +3,16 @@ package com.yuecheng.workportal.ui;
 import java.awt.TrayIcon;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+
+import com.yuecheng.workportal.tools.Constant;
 
 public class TrayShakeUI extends Thread {
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
-	JFrame mainJFrame;
+	Main mainJFrame;
 	Boolean isShaking = true;
 	
-	public TrayShakeUI(JFrame mainJFrame, TrayIcon trayIcon,ImageIcon icon) {
+	public TrayShakeUI(Main mainJFrame, TrayIcon trayIcon,ImageIcon icon) {
 		this.mainJFrame = mainJFrame;
 		this.trayIcon = trayIcon;
 		this.icon = icon;
@@ -27,7 +28,7 @@ public class TrayShakeUI extends Thread {
 				Thread.sleep(500);
 				// 闪动消息的提示图片
 				this.trayIcon.setImage(icon.getImage());
-				mainJFrame.setTitle("乐成工作台");
+				mainJFrame.setTitle(mainJFrame.RES_BUNDLE.getString(Constant.MainFrame_Title));
 				Thread.sleep(500);
 			}catch(Exception e) {
 	            e.printStackTrace();
@@ -42,7 +43,7 @@ public class TrayShakeUI extends Thread {
 	public void stopShake() {
 		// 闪动消息的提示图片
 		this.trayIcon.setImage(icon.getImage());
-		mainJFrame.setTitle("乐成工作台");
+		mainJFrame.setTitle(mainJFrame.RES_BUNDLE.getString(Constant.MainFrame_Title));
 		isShaking = false;
 	}
 
