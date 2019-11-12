@@ -153,6 +153,7 @@ public class Main extends JFrame{
 	JMenuItem debugItem  = null;
 	JMenuItem serverItem  = null;
 	JMenuItem exitItem  = null;
+	JMenuItem refreshCacheItem = null;
 	public void createTrayIcon() {
 		sysTray = SystemTray.getSystemTray();// 获得当前操作系统的托盘对象
 		icon = new ImageIcon(getRes("res/tray.png"));// 托盘图标
@@ -161,10 +162,12 @@ public class Main extends JFrame{
 		openItem = new JMenuItem(RES_BUNDLE.getString(Constant.Open_Item));
 		debugItem = new JMenuItem(RES_BUNDLE.getString(Constant.Debug_Item));
 		serverItem = new JMenuItem(RES_BUNDLE.getString(Constant.Server_Item));
+		refreshCacheItem = new JMenuItem(RES_BUNDLE.getString(Constant.RefreshCache_Item));
 		exitItem = new JMenuItem(RES_BUNDLE.getString(Constant.Exit_Item));
 		popupMenu.add(openItem);
 		popupMenu.add(debugItem);
 		popupMenu.add(serverItem);
+		popupMenu.add(refreshCacheItem);
 		popupMenu.add(exitItem);
 		// 为弹出菜单项添加事件
 		openItem.addActionListener(new ActionListener() {
@@ -173,6 +176,13 @@ public class Main extends JFrame{
 				Main.this.setVisible(true); // 显示窗口
 				Main.this.toFront(); // 显示窗口到最前端
 				stopShake(); // 消息打开了
+			}
+		});
+		//刷新缓存
+		refreshCacheItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BrowserManager.getInstance().getBrowser().getCacheStorage().clearCache();
+				BrowserManager.getInstance().getBrowser().reload();
 			}
 		});
 		debugItem.addActionListener(new ActionListener() {
@@ -290,6 +300,7 @@ public class Main extends JFrame{
 		this.openItem.setText(bundle.getString(Constant.Open_Item));
 		this.debugItem.setText(bundle.getString(Constant.Debug_Item));
 		this.serverItem.setText(bundle.getString(Constant.Server_Item));
+		this.refreshCacheItem.setText(bundle.getString(Constant.RefreshCache_Item));
 		this.exitItem.setText(bundle.getString(Constant.Exit_Item));
 		this.trayIcon.setToolTip(bundle.getString(Constant.MainFrame_Title));
 	}
