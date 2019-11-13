@@ -50,7 +50,7 @@ public class Main extends JFrame{
 	private ImageIcon icon = null;
 	private TrayShakeUI trayThread;
 	public static ResourceBundle RES_BUNDLE = ResourceBundle.getBundle("msg_zh_CN",Locale.getDefault());
-	
+	public static boolean isOpen = false;
 	/**
 	 * 初始化窗体的方法
 	 */
@@ -68,10 +68,12 @@ public class Main extends JFrame{
 			@Override
 			public void windowActivated(WindowEvent arg0) {
 				stopShake();
+				isOpen = true;
 			}
 
 			@Override
 			public void windowClosed(WindowEvent arg0) {
+				isOpen = false;
 			}
 
 			@Override
@@ -80,6 +82,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void windowDeactivated(WindowEvent arg0) {
+				isOpen = false;
 			}
 
 			@Override
@@ -88,6 +91,7 @@ public class Main extends JFrame{
 
 			@Override
 			public void windowIconified(WindowEvent arg0) {
+				isOpen = false;
 			}
 
 			@Override
@@ -97,7 +101,7 @@ public class Main extends JFrame{
 		});
 //		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 //		this.setLocationByPlatform(true); 
-		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		this.add(view, BorderLayout.CENTER);
 		
 //		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -115,8 +119,8 @@ public class Main extends JFrame{
 			}
 		});
 		
-		browser.loadURL(getRes("res/test.html").toString());
-//		browser.loadURL(SERVER_URL);
+//		browser.loadURL(getRes("res/test.html").toString());
+		browser.loadURL(SERVER_URL);
 		Font font = new Font("微软雅黑", Font.PLAIN, 14);
 		Enumeration<Object> keys = UIManager.getDefaults().keys();
 		while (keys.hasMoreElements()) {

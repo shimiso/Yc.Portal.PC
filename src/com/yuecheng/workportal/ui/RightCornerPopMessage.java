@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -25,16 +27,16 @@ import javax.swing.JWindow;
  * @JDK　VERSION 6.0
  * @Copy Right By BLingSoft
  */
-public class RightCornerPopMessage extends JWindow implements Runnable,
+public class RightCornerPopMessage extends JDialog implements Runnable,
         MouseListener {
-
+	Main mainFrame;
     private static final long serialVersionUID = -3564453685861233338L;
     private Integer screenWidth; // 屏幕宽度
     private Integer screenHeight; // 屏幕高度
     private Integer windowWidth = 200; // 设置提示窗口宽度
     private Integer windowHeight = 100; // 设置提示窗口高度
     private Integer bottmToolKitHeight; // 底部任务栏高度，如果没有任务栏则为零
-    private Integer stayTime = 4000; // 提示框停留时间
+    private Integer stayTime = 2000; // 提示框停留时间
 
     private Integer x; // 窗口起始X坐标
     private Integer y; // 窗口起始Y坐标
@@ -49,15 +51,15 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
     private JPanel messagePanel; // 内容面板
     Thread thread;
     
-    public RightCornerPopMessage() {
-        
-       
+    public RightCornerPopMessage(Main mainFrame) {
+    	this.mainFrame = mainFrame;
+    	this.init();
     }
     
     public void open(String title,String message) {
-    	this.title=title;
-    	this.message=message;
-    	this.init();
+    	this.titleLabel.setText(title);
+    	this.messageLabel.setText(message);
+    	Toolkit.getDefaultToolkit().beep(); // 播放系统声音，提示一下
     	if(thread!=null) {
     		thread.stop();
     		thread = null;
@@ -67,6 +69,7 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
     }
     
     public void close() {
+    	this.dispose();
     	if(thread!=null) {
     		thread.stop();
     		thread = null;
@@ -74,7 +77,7 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
     }
     
     private void init() {
-    	Toolkit.getDefaultToolkit().beep(); // 播放系统声音，提示一下
+    	this.setUndecorated(true);
         bottmToolKitHeight = Toolkit.getDefaultToolkit().getScreenInsets(
                 this.getGraphicsConfiguration()).bottom;
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,7 +88,7 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
         y = screenHeight;
         this.setLocation(x, y - bottmToolKitHeight - windowHeight);
         mainPanel = new JPanel(new BorderLayout());
-
+        mainPanel.setBackground(Color.WHITE);
         titleLabel = new JLabel(title);
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -100,7 +103,7 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
         messagePanel.setBackground(Color.WHITE);
 
         mainPanel.add(titlePanel, BorderLayout.NORTH);
-        mainPanel.add(messagePanel, BorderLayout.CENTER);
+        mainPanel.add(messagePanel, BorderLayout.WEST);
 
         this.setSize(windowWidth, windowHeight);
         this.setAlwaysOnTop(false);
@@ -147,6 +150,8 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
 
     @Override
     public void mouseClicked(MouseEvent e) {
+    	mainFrame.setVisible(true);
+    	mainFrame.setExtendedState(JFrame.NORMAL); 
         this.dispose();
     }
 
@@ -171,6 +176,6 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
     }
 
     public static void main(String[] args) {
-        new RightCornerPopMessage().open("标题", "一条消息");;
+//        new RightCornerPopMessage().open("标题", "一条消息");;
     }
 }

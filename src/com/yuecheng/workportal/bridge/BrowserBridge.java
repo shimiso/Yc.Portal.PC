@@ -27,7 +27,7 @@ public class BrowserBridge {
 	public static String openWinAPPCallback = "openWinAPPCallback('%s')";
 	// 打开PC端回调回调函数
 	public static String getVersionCallback = "getVersionCallback('%1s','%2s','%3s')";
-
+	RightCornerPopMessage rightCornerPopMessage;
 	public BrowserBridge(Main mainFrame) {
 		this.mainFrame = mainFrame;
 	}
@@ -81,11 +81,18 @@ public class BrowserBridge {
 	 */
 	long mLastClickTime = 0;
 	public void showRightCornerPopMessage(String title, String content) {
-		 long nowTime = System.currentTimeMillis();
-         if (nowTime - mLastClickTime > 4000L) {
-        	 new RightCornerPopMessage().open(title,content);
-        	 mLastClickTime = nowTime;
-         }  
+		if(!Main.isOpen) {
+			long nowTime = System.currentTimeMillis();
+	         if (nowTime - mLastClickTime > 2000L) {
+	        	 if(rightCornerPopMessage!=null) {
+	        		 rightCornerPopMessage.close();
+	        		 rightCornerPopMessage = null;
+	        	 }
+	        	 rightCornerPopMessage = new RightCornerPopMessage(mainFrame);
+	        	 rightCornerPopMessage.open(title,content);
+	        	 mLastClickTime = nowTime;
+	         }  
+		}
 	}
 
 	/**
