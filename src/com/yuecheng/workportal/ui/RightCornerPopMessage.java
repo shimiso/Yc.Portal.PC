@@ -74,6 +74,7 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
     }
     
     private void init() {
+    	Toolkit.getDefaultToolkit().beep(); // 播放系统声音，提示一下
         bottmToolKitHeight = Toolkit.getDefaultToolkit().getScreenInsets(
                 this.getGraphicsConfiguration()).bottom;
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -105,7 +106,6 @@ public class RightCornerPopMessage extends JWindow implements Runnable,
         this.setAlwaysOnTop(false);
         this.getContentPane().add(mainPanel);
         this.addMouseListener(this);
-        Toolkit.getDefaultToolkit().beep(); // 播放系统声音，提示一下
         this.setVisible(true);
     }
 
