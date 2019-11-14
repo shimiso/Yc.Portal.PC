@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemTray;
+import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,8 +58,13 @@ public class Main extends JFrame{
 	public void init() {
 //        this.setUndecorated(true);
 		this.setTitle(RES_BUNDLE.getString(Constant.MainFrame_Title));
-		this.setMinimumSize(new Dimension(1200, 720)); 
-		this.setSize(1280, 768);
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		Integer minScreenWidth = (int) (dimension.width*0.66);
+		Integer minScreenHeight = (int)(dimension.height*0.7);
+		Integer screenWidth = (int) (dimension.width*0.76);
+		Integer screenHeight = (int)(dimension.height*0.8);
+		this.setMinimumSize(new Dimension(minScreenWidth, minScreenHeight)); 
+		this.setSize(screenWidth, screenHeight);
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserView view = new BrowserView(browser);
 		this.addWindowListener(new WindowListener() {
@@ -177,7 +183,7 @@ public class Main extends JFrame{
 		// 为弹出菜单项添加事件
 		openItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Main.this.setExtendedState(JFrame.NORMAL);
+				Main.this.setState(JFrame.NORMAL);
 				Main.this.setVisible(true); // 显示窗口
 				Main.this.toFront(); // 显示窗口到最前端
 				stopShake(); // 消息打开了
@@ -219,15 +225,6 @@ public class Main extends JFrame{
 		trayIcon.setImageAutoSize(true);
 		/** 添加鼠标监听器，当鼠标在托盘图标上双击时，默认显示窗口 */
 		trayIcon.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if (e.getButton() == e.BUTTON1) { // 鼠标单机
-					Main.this.setExtendedState(JFrame.NORMAL);
-					Main.this.setVisible(true); // 显示窗口
-					Main.this.toFront();
-					stopShake(); // 消息打开了
-				}  
-			}
-
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				maybeShowPopup(e);
@@ -243,6 +240,11 @@ public class Main extends JFrame{
 					popupMenu.setLocation(e.getX(), e.getY());
 					popupMenu.setInvoker(popupMenu);
 					popupMenu.setVisible(true);
+				}else {
+					Main.this.setVisible(true); // 显示窗口
+					Main.this.setState(JFrame.NORMAL);
+					Main.this.toFront();
+					stopShake(); // 消息打开了
 				}
 			}
 		});

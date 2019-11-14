@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
@@ -102,8 +103,13 @@ public class BrowserManager {
 
 								final JFrame frame = new JFrame();
 								frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-								frame.setMinimumSize(new Dimension(1200, 720));
-								frame.setSize(1280, 768);
+								Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+								Integer minScreenWidth = (int) (dimension.width*0.66);
+								Integer minScreenHeight = (int)(dimension.height*0.7);
+								Integer screenWidth = (int) (dimension.width*0.76);
+								Integer screenHeight = (int)(dimension.height*0.8);
+								frame.setMinimumSize(new Dimension(minScreenWidth, minScreenHeight)); 
+								frame.setSize(screenWidth, screenHeight);
 								Image image = frame.getToolkit().getImage(getRes("res/tray.png"));
 								frame.setIconImage(image);
 								frame.add(browserView, BorderLayout.CENTER);
