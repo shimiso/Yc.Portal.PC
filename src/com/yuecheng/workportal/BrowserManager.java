@@ -13,11 +13,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.BrowserPreferences;
+import com.teamdev.jxbrowser.chromium.DownloadHandler;
+import com.teamdev.jxbrowser.chromium.DownloadItem;
 import com.teamdev.jxbrowser.chromium.PopupContainer;
 import com.teamdev.jxbrowser.chromium.PopupHandler;
 import com.teamdev.jxbrowser.chromium.PopupParams;
 import com.teamdev.jxbrowser.chromium.events.DisposeEvent;
 import com.teamdev.jxbrowser.chromium.events.DisposeListener;
+import com.teamdev.jxbrowser.chromium.events.DownloadEvent;
+import com.teamdev.jxbrowser.chromium.events.DownloadListener;
 import com.teamdev.jxbrowser.chromium.events.TitleEvent;
 import com.teamdev.jxbrowser.chromium.events.TitleListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -28,6 +33,9 @@ public class BrowserManager {
 
 	private BrowserManager() {
 		System.setProperty("jxbrowser.chromium.sandbox", "true");
+		// Specifies remote debugging port for remote Chrome Developer Tools.
+		BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
+		BrowserPreferences.setUserAgent("jxbrowser");
 		browser = new Browser();
 		setPopupHandler();
 	}
@@ -62,7 +70,26 @@ public class BrowserManager {
 		// return null;
 		// }
 		// });
-
+		// browser.setDownloadHandler(new DownloadHandler() {
+		// public boolean allowDownload(DownloadItem download) {
+		// download.addDownloadListener(new DownloadListener() {
+		// public void onDownloadUpdated(DownloadEvent event) {
+		// DownloadItem download = event.getDownloadItem();
+		// int progress =(int) (((float) download.getReceivedBytes()/
+		// download.getTotalBytes()) * 100);
+		// System.out.println("progress: " +progress);
+		// System.out.println("ReceivedBytes: "+download.getReceivedBytes()+"
+		// TotalBytes: "+download.getTotalBytes()+" progress: " +progress);
+		// if (download.isCompleted()) {
+		// System.out.println("Download is completed!");
+		// }
+		// }
+		// });
+		// System.out.println("Dest file: " +
+		// download.getDestinationFile().getAbsolutePath());
+		// return true;
+		// }
+		// });
 		browser.setPopupHandler(new PopupHandler() {
 			public PopupContainer handlePopup(PopupParams params) {
 				return new PopupContainer() {
@@ -75,7 +102,7 @@ public class BrowserManager {
 
 								final JFrame frame = new JFrame();
 								frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-								frame.setMinimumSize(new Dimension(1200, 720)); 
+								frame.setMinimumSize(new Dimension(1200, 720));
 								frame.setSize(1280, 768);
 								Image image = frame.getToolkit().getImage(getRes("res/tray.png"));
 								frame.setIconImage(image);

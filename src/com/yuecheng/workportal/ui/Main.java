@@ -55,8 +55,6 @@ public class Main extends JFrame{
 	 * 初始化窗体的方法
 	 */
 	public void init() {
-		 // Specifies remote debugging port for remote Chrome Developer Tools.
-        BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 //        this.setUndecorated(true);
 		this.setTitle(RES_BUNDLE.getString(Constant.MainFrame_Title));
 		this.setMinimumSize(new Dimension(1200, 720)); 
@@ -157,7 +155,8 @@ public class Main extends JFrame{
 	JMenuItem debugItem  = null;
 	JMenuItem serverItem  = null;
 	JMenuItem exitItem  = null;
-	JMenuItem refreshCacheItem = null;
+	JMenuItem clearCacheItem = null;
+	JMenuItem refreshItem = null;
 	public void createTrayIcon() {
 		sysTray = SystemTray.getSystemTray();// 获得当前操作系统的托盘对象
 		icon = new ImageIcon(getRes("res/tray.png"));// 托盘图标
@@ -166,12 +165,14 @@ public class Main extends JFrame{
 		openItem = new JMenuItem(RES_BUNDLE.getString(Constant.Open_Item));
 		debugItem = new JMenuItem(RES_BUNDLE.getString(Constant.Debug_Item));
 		serverItem = new JMenuItem(RES_BUNDLE.getString(Constant.Server_Item));
-		refreshCacheItem = new JMenuItem(RES_BUNDLE.getString(Constant.RefreshCache_Item));
+		clearCacheItem = new JMenuItem(RES_BUNDLE.getString(Constant.ClearCache_Item));
+		refreshItem = new JMenuItem(RES_BUNDLE.getString(Constant.Refresh_Item));
 		exitItem = new JMenuItem(RES_BUNDLE.getString(Constant.Exit_Item));
 		popupMenu.add(openItem);
 		popupMenu.add(debugItem);
 		popupMenu.add(serverItem);
-		popupMenu.add(refreshCacheItem);
+		popupMenu.add(clearCacheItem);
+		popupMenu.add(refreshItem);
 		popupMenu.add(exitItem);
 		// 为弹出菜单项添加事件
 		openItem.addActionListener(new ActionListener() {
@@ -182,10 +183,16 @@ public class Main extends JFrame{
 				stopShake(); // 消息打开了
 			}
 		});
-		//刷新缓存
-		refreshCacheItem.addActionListener(new ActionListener() {
+		//清空缓存
+		clearCacheItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BrowserManager.getInstance().getBrowser().getCacheStorage().clearCache();
+				BrowserManager.getInstance().getBrowser().reload();
+			}
+		});
+		//刷新
+		refreshItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				BrowserManager.getInstance().getBrowser().reload();
 			}
 		});
@@ -299,12 +306,13 @@ public class Main extends JFrame{
 	}
 
 	public void switchLanguage(ResourceBundle bundle) {
-		this.RES_BUNDLE = bundle;
+		Main.RES_BUNDLE = bundle;
 		this.setTitle(bundle.getString(Constant.MainFrame_Title));
 		this.openItem.setText(bundle.getString(Constant.Open_Item));
 		this.debugItem.setText(bundle.getString(Constant.Debug_Item));
 		this.serverItem.setText(bundle.getString(Constant.Server_Item));
-		this.refreshCacheItem.setText(bundle.getString(Constant.RefreshCache_Item));
+		this.clearCacheItem.setText(bundle.getString(Constant.ClearCache_Item));
+		this.refreshItem.setText(bundle.getString(Constant.Refresh_Item));
 		this.exitItem.setText(bundle.getString(Constant.Exit_Item));
 		this.trayIcon.setToolTip(bundle.getString(Constant.MainFrame_Title));
 	}
