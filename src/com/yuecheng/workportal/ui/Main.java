@@ -45,7 +45,7 @@ import com.yuecheng.workportal.tools.Constant;
  */
 public class Main extends JFrame{
 	private static final long serialVersionUID = -3115128552716619277L;
-	private static final String SERVER_URL = "http://office.yuechenggroup.com/";
+	private static final String SERVER_URL = "http://yctestportalweb.yuechenggroup.com/";
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
@@ -254,7 +254,7 @@ public class Main extends JFrame{
 	 * 主窗口不是最前置活跃就开始闪动托盘和任务栏
 	 */
 	public void startShake() {
-		if(SystemTray.isSupported()){
+		if(SystemTray.isSupported()&&!isOpen){
 			stopShake();
 			trayThread = new TrayShakeUI(this,trayIcon,icon);
 			trayThread.start();
