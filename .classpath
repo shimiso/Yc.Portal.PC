@@ -8,8 +8,6 @@
 	<classpathentry kind="lib" path="libs/rt.jar"/>
 	<classpathentry kind="lib" path="libs/substance.jar"/>
 	<classpathentry kind="lib" path="libs/jregistry-1.8.1.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win32-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win64-6.21.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

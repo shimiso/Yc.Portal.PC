@@ -17,8 +17,8 @@ import com.yuecheng.workportal.ui.RightCornerPopMessage;
  *
  */
 public class BrowserBridge {
-	public static String versionCode = "4";
-	public static String versionName = "Beta_V1.0.4";
+	public static String versionCode = "5";
+	public static String versionName = "Beta_V1.0.5";
 	// 程序主界面
 	Main mainFrame;
 	// 截屏后的回调函数
@@ -131,6 +131,7 @@ public class BrowserBridge {
 		}else if(language!=null&&language.equals("en_US")) {
 			 bundle = ResourceBundle.getBundle("msg_en_US",locale);
 		}
+		System.out.print("switchLanguage方法被调用："+language);
 		mainFrame.switchLanguage(bundle);
 	}
 }

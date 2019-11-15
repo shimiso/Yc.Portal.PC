@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
@@ -45,7 +46,7 @@ import com.yuecheng.workportal.tools.Constant;
  */
 public class Main extends JFrame{
 	private static final long serialVersionUID = -3115128552716619277L;
-	private static final String SERVER_URL = "http://yctestportalweb.yuechenggroup.com/";
+	private static final String SERVER_URL = "http://office.yuechenggroup.com/";
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
@@ -66,6 +67,7 @@ public class Main extends JFrame{
 		this.setMinimumSize(new Dimension(minScreenWidth, minScreenHeight)); 
 		this.setSize(screenWidth, screenHeight);
 		Browser browser = BrowserManager.getInstance().getBrowser();
+		BrowserManager.getInstance().setMain(this);
 		BrowserView view = new BrowserView(browser);
 		this.addWindowListener(new WindowListener() {
 
@@ -240,7 +242,7 @@ public class Main extends JFrame{
 					popupMenu.setLocation(e.getX(), e.getY());
 					popupMenu.setInvoker(popupMenu);
 					popupMenu.setVisible(true);
-				}else {
+				}else if(SwingUtilities.isLeftMouseButton(e)) {
 					Main.this.setVisible(true); // 显示窗口
 					Main.this.setState(JFrame.NORMAL);
 					Main.this.toFront();

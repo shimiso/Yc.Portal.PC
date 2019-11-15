@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -57,8 +59,13 @@ public class RightCornerPopMessage extends JDialog implements Runnable,
     }
     
     public void open(String title,String message) {
-    	this.titleLabel.setText(title);
-    	this.messageLabel.setText(message);
+		this.titleLabel.setText(title);
+		this.messageLabel.setText(message);
+		this.addWindowFocusListener(new WindowAdapter() {
+			public void windowLostFocus(WindowEvent e) {
+				e.getWindow().toFront();
+			}
+		});
     	Toolkit.getDefaultToolkit().beep(); // 播放系统声音，提示一下
     	if(thread!=null) {
     		thread.stop();
