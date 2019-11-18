@@ -82,7 +82,7 @@ public class BrowserBridge {
 	 */
 	long mLastClickTime = 0;
 	public void showRightCornerPopMessage(String title, String content) {
-		if(!Main.isOpen&&StringUtils.isMac()) {
+		if(!Main.isOpen) {
 			long nowTime = System.currentTimeMillis();
 	         if (nowTime - mLastClickTime > 2000L) {
 	        	 if(rightCornerPopMessage!=null) {

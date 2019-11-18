@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JWindow;
 
 /**
@@ -35,10 +37,10 @@ public class RightCornerPopMessage extends JDialog implements Runnable,
     private static final long serialVersionUID = -3564453685861233338L;
     private Integer screenWidth; // 屏幕宽度
     private Integer screenHeight; // 屏幕高度
-    private Integer windowWidth = 200; // 设置提示窗口宽度
-    private Integer windowHeight = 100; // 设置提示窗口高度
+    private Integer windowWidth = 260; // 设置提示窗口宽度
+    private Integer windowHeight = 150; // 设置提示窗口高度
     private Integer bottmToolKitHeight; // 底部任务栏高度，如果没有任务栏则为零
-    private Integer stayTime = 2000; // 提示框停留时间
+    private Integer stayTime = 4000; // 提示框停留时间
 
     private Integer x; // 窗口起始X坐标
     private Integer y; // 窗口起始Y坐标
@@ -49,7 +51,7 @@ public class RightCornerPopMessage extends JDialog implements Runnable,
     private JPanel mainPanel; // 主面板
     private JLabel titleLabel; // 标题栏标签
     private JPanel titlePanel; // 标题栏面板
-    private JLabel messageLabel; // 内容标签
+    private JTextArea messageLabel; // 内容标签
     private JPanel messagePanel; // 内容面板
     Thread thread;
     
@@ -98,19 +100,24 @@ public class RightCornerPopMessage extends JDialog implements Runnable,
         mainPanel.setBackground(Color.WHITE);
         titleLabel = new JLabel(title);
         titleLabel.setForeground(Color.BLACK);
-        titleLabel.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+        titleLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
         titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         titlePanel.setBackground(new Color(104,141,177));
         titlePanel.add(titleLabel);
 
-        messageLabel = new JLabel(message);
-        messageLabel.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-        messagePanel = new JPanel();
+        messageLabel = new JTextArea(message);
+        messageLabel.setEnabled(false);
+        messageLabel.setLineWrap(true); //激活自动换行功能 
+        messageLabel.setWrapStyleWord(true); // 激活断行不断字功能
+        messageLabel.setSize(windowWidth, windowHeight-10);
+        messageLabel.setRows(5);
+        messageLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+        messagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         messagePanel.add(messageLabel);
         messagePanel.setBackground(Color.WHITE);
 
         mainPanel.add(titlePanel, BorderLayout.NORTH);
-        mainPanel.add(messagePanel, BorderLayout.WEST);
+        mainPanel.add(messagePanel, BorderLayout.CENTER);
 
         this.setSize(windowWidth, windowHeight);
         this.setAlwaysOnTop(false);
@@ -119,6 +126,7 @@ public class RightCornerPopMessage extends JDialog implements Runnable,
         this.setVisible(true);
     }
 
+    
     @Override
     public void run() {
         Integer delay = 5;

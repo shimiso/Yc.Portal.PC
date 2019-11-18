@@ -122,14 +122,16 @@ public class BrowserManager {
 		browser.setPopupHandler(new PopupHandler() {
 			public PopupContainer handlePopup(PopupParams popupParams) {
 			    url = popupParams.getURL();
-				//*******下面这样处理是为了避免在打开IE浏览器的时候带&号后面的参数被截掉的问题
-				url = url.replaceAll("\"","\'");
-				url = "\"" + url + "\"";
-				if(StringUtils.isWindows()&&StringUtils.isOARequestUrl(url)) {
-					// 原理: 通过执行CMD命令,来实现
-					String str = "cmd /c start iexplore " + url;
+				if(StringUtils.isOARequestUrl(url)) {
 					try {
-						Runtime.getRuntime().exec(str);
+						if(StringUtils.isWindows()) {
+							//*******下面这样处理是为了避免在打开IE浏览器的时候带&号后面的参数被截掉的问题
+							url = url.replaceAll("\"","\'");
+							url = "\"" + url + "\"";
+							CMDUtil.excuteCMDCommand("cmd /c start iexplore " + url);
+						}else if(StringUtils.isMac()) {
+							CMDUtil.excuteCMDCommand("/usr/bin/open -a safari "+url);
+						}
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					} 
