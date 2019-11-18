@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.screen.Capturer;
 import com.yuecheng.workportal.tools.DesktopAppUtils;
+import com.yuecheng.workportal.tools.StringUtils;
 import com.yuecheng.workportal.ui.Main;
 import com.yuecheng.workportal.ui.RightCornerPopMessage;
 
@@ -17,8 +18,8 @@ import com.yuecheng.workportal.ui.RightCornerPopMessage;
  *
  */
 public class BrowserBridge {
-	public static String versionCode = "5";
-	public static String versionName = "Beta_V1.0.5";
+	public static String versionCode = "6";
+	public static String versionName = "Beta_V1.0.6";
 	// 程序主界面
 	Main mainFrame;
 	// 截屏后的回调函数
@@ -81,7 +82,7 @@ public class BrowserBridge {
 	 */
 	long mLastClickTime = 0;
 	public void showRightCornerPopMessage(String title, String content) {
-		if(!Main.isOpen) {
+		if(!Main.isOpen&&StringUtils.isMac()) {
 			long nowTime = System.currentTimeMillis();
 	         if (nowTime - mLastClickTime > 2000L) {
 	        	 if(rightCornerPopMessage!=null) {

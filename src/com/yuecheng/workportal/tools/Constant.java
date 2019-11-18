@@ -11,4 +11,7 @@ public class Constant {
 	public static final String Save_Capture = "Save_Capture";
 	public static final String OK_Capture = "OK_Capture";
 	public static final String Exit_Capture = "Exit_Capture";
+	public static final String LOADING ="LOADING";
+	public static final String CLOSE ="CLOSE";
+	public static final String No_APP_KNOWS="No_APP_KNOWS";
 }

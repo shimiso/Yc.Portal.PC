@@ -18,7 +18,7 @@ public class CMDUtil {
 	 * @return 命令执行结果字符串，如出现异常返回null
 	 * @throws Exception
 	 */
-	public static void excuteCMDCommand(String cmdCommand) throws Exception {
+	public static String excuteCMDCommand(String cmdCommand) throws Exception {
 		StringBuilder stringBuilder = new StringBuilder();
 		Process process = null;
 		process = Runtime.getRuntime().exec(cmdCommand);
@@ -28,6 +28,7 @@ public class CMDUtil {
 			stringBuilder.append(line + "\n");
 		}
 		System.out.println(stringBuilder.toString());
+		return stringBuilder.toString();
 	}
 
 	/**

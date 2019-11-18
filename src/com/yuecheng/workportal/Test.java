@@ -32,6 +32,17 @@ public class Test {
 	        progressBar.setValue(0);
 	        // 绘制百分比文本（进度条中间显示的百分数）
 	        progressBar.setStringPainted(true);
+	        // 模拟延时操作进度, 每隔 0.5 秒更新进度
+	        new Timer(500, new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                currentProgress++;
+	                if (currentProgress > MAX_PROGRESS) {
+	                    currentProgress = MIN_PROGRESS;
+	                }
+	                progressBar.setValue(currentProgress);
+	            }
+	        }).start();
 	        // 创建一个按钮用于关闭对话框
 	        JButton okBtn = new JButton("确定");
 	        okBtn.addActionListener(new ActionListener() {
@@ -48,30 +59,40 @@ public class Test {
 	        panel.add(okBtn);
 	        // 设置对话框的内容面板
 	        dialog.setContentPane(panel);
+	        // 显示对话框
+	        dialog.setVisible(true);
 	    }
 	    
 	    public static void main(String[] args) {
-	        JFrame jf = new JFrame("测试窗口");
-	        jf.setSize(250, 250);
-	        jf.setLocationRelativeTo(null);
-	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	        jf.setVisible(true);
-	        showCustomDialog(jf,jf);
-	        // 显示对话框
-	        dialog.setVisible(true);
-		     // 模拟延时操作进度, 每隔 0.5 秒更新进度
-	        new Timer(500, new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                currentProgress++;
-	                if (currentProgress > MAX_PROGRESS) {
-	                    currentProgress = MIN_PROGRESS;
-	                }
-	                progressBar.setValue(currentProgress);
-	            }
-	        }).start();
-	       
-	     
+//	        JFrame jf = new JFrame("测试窗口");
+//	        jf.setSize(250, 250);
+//	        jf.setLocationRelativeTo(null);
+//	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//	        jf.setVisible(true);
+//	        showCustomDialog(jf,jf);
+
+//	    	Key                     Meaning
+//	    	-------------------     ------------------------------
+//	    	"file.separator"        File separator (e.g., "/")
+//	    	"java.class.path"       Java classpath
+//	    	"java.class.version"    Java class version number
+//	    	"java.home"             Java installation directory
+//	    	"java.vendor"           Java vendor-specific string
+//
+//	    	"java.vendor.url"       Java vendor URL
+//	    	"java.version"          Java version number
+//	    	"line.separator"        Line separator
+//	    	"os.arch"               Operating system architecture
+//	    	"os.name"               Operating system name
+//
+//	    	"path.separator"        Path separator (e.g., ":")
+//	    	"user.dir"              User's current working directory
+//	    	"user.home"             User home directory
+//	    	"user.name"             User account name
+	    	
+	    	System.out.println("user.name: "+ System.getProperty("user.name"));
+	    	System.out.println("user.home: "+ System.getProperty("user.home"));
+	    	System.out.println("user.dir: "+ System.getProperty("user.dir"));
 	    }
 }
 
