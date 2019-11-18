@@ -1,6 +1,7 @@
 package com.yuecheng.workportal.tools;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
@@ -10,7 +11,29 @@ import java.io.InputStreamReader;
  *
  */
 public class CMDUtil {
-
+	public static void main(String[] args) {
+		exec("dir");
+	}
+	public static void exec(String cmd) {
+        try {
+            Runtime rt = Runtime.getRuntime();
+            Process proc = rt.exec(cmd);
+            InputStream is = proc.getInputStream();
+            InputStream es = proc.getErrorStream();
+            String line;
+            BufferedReader br;
+            br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            while ((line = br.readLine()) != null) {
+            	System.out.println(">>>"+line);
+            }
+            br = new BufferedReader(new InputStreamReader(es, "UTF-8"));
+            while ((line = br.readLine()) != null) {
+            	System.out.println(">>>"+line);
+            }
+        } catch (Exception e) {
+        	System.out.println(">>>异常信息"+e);
+        }
+    }
 	/**
 	 * 执行一个cmd命令
 	 * 
@@ -22,7 +45,7 @@ public class CMDUtil {
 		StringBuilder stringBuilder = new StringBuilder();
 		Process process = null;
 		process = Runtime.getRuntime().exec(cmdCommand);
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "GBK"));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"));
 		String line = null;
 		while ((line = bufferedReader.readLine()) != null) {
 			stringBuilder.append(line + "\n");

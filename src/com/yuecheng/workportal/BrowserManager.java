@@ -107,6 +107,7 @@ public class BrowserManager {
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
+								JOptionPane.showMessageDialog(main, Main.RES_BUNDLE.getString(Constant.No_APP_KNOWS), "",JOptionPane.WARNING_MESSAGE);
 							}  
 						}
 					}
