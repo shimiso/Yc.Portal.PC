@@ -36,6 +36,7 @@ import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.bridge.BrowserBridge;
+import com.yuecheng.workportal.listener.WindowListenerDecorator;
 import com.yuecheng.workportal.tools.Constant;
 /**
  * 
@@ -46,7 +47,7 @@ import com.yuecheng.workportal.tools.Constant;
  */
 public class Main extends JFrame{
 	private static final long serialVersionUID = -3115128552716619277L;
-	private static final String SERVER_URL = "http://yctestportalweb.yuechenggroup.com/";
+	private static final String SERVER_URL = "http://office.yuechenggroup.com/";
 	private SystemTray sysTray;// 当前操作系统的托盘对象
 	private TrayIcon trayIcon;// 当前对象的托盘
 	private ImageIcon icon = null;
@@ -69,12 +70,13 @@ public class Main extends JFrame{
 		Browser browser = BrowserManager.getInstance().getBrowser();
 		BrowserManager.getInstance().setMain(this);
 		BrowserView view = new BrowserView(browser);
-		this.addWindowListener(new WindowListener() {
+		this.addWindowListener(new WindowListenerDecorator() {
 
 			@Override
 			public void windowActivated(WindowEvent arg0) {
 				stopShake();
 				isOpen = true;
+				ProgressDialog  progressDialog = ProgressDialog.createProgressDialog(Main.this);
 			}
 
 			@Override
@@ -83,27 +85,14 @@ public class Main extends JFrame{
 			}
 
 			@Override
-			public void windowClosing(WindowEvent arg0) {
-			}
-
-			@Override
 			public void windowDeactivated(WindowEvent arg0) {
 				isOpen = false;
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent arg0) {
 			}
 
 			@Override
 			public void windowIconified(WindowEvent arg0) {
 				isOpen = false;
 			}
-
-			@Override
-			public void windowOpened(WindowEvent arg0) {
-			}
-			
 		});
 //		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 //		this.setLocationByPlatform(true); 

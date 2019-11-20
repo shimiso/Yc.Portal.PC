@@ -30,9 +30,14 @@
 	<button onclick="BrowserBridge.openOutLookEmail()">打开Outlook邮箱</button>
 	<button onclick="BrowserBridge.showRightCornerPopMessage('新消息1','张三给你发了一个表情1111')">右下角弹窗</button>
 	<button onclick="BrowserBridge.showRightCornerPopMessage('新消息2','张三给你发了一个表情2222')">右下角弹窗</button>
-	<button onclick="BrowserBridge.getVersion()">获取当前版本</button>
+	<button onclick="BrowserBridge.getVersion()">获取当前版本和操作系统</button>
 	<button onclick="BrowserBridge.switchLanguage('zh_CN')">切换中文</button>
-	<button onclick="BrowserBridge.switchLanguage('en_US')">切换英文</button>
+	<button onclick="BrowserBridge.switchLanguage('en_US')">切换英文</button><br><br>
+	<button onclick="BrowserBridge.openIE('http://wwww.baidu.com')">打开IE浏览器</button>
+	<button onclick="BrowserBridge.openSafari('http://wwww.baidu.com')">打开Safari浏览器</button><br><br>
+	<a  href='http://192.168.0.150:5019/AppVersions/YueCheng_Office_Win.exe' target="_blank" download="exe">点击下载exe</a>
+	<a  href='http://doc.yuechenggroup.com/UploadFiles/OA/4303765440417122617.pptx' target="_blank" download="pptx">点击下载ppt</a>
+	
     <br><br>
     <img id="img"  alt="图片预览区">
     <br>

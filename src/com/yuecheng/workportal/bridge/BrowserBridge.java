@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 
 import com.yuecheng.workportal.BrowserManager;
 import com.yuecheng.workportal.screen.Capturer;
+import com.yuecheng.workportal.tools.CMDUtil;
+import com.yuecheng.workportal.tools.Constant;
 import com.yuecheng.workportal.tools.DesktopAppUtils;
 import com.yuecheng.workportal.tools.StringUtils;
 import com.yuecheng.workportal.ui.Main;
@@ -18,8 +20,6 @@ import com.yuecheng.workportal.ui.RightCornerPopMessage;
  *
  */
 public class BrowserBridge {
-	public static String versionCode = "6";
-	public static String versionName = "Beta_V1.0.6";
 	// 程序主界面
 	Main mainFrame;
 	// 截屏后的回调函数
@@ -82,7 +82,7 @@ public class BrowserBridge {
 	 */
 	long mLastClickTime = 0;
 	public void showRightCornerPopMessage(String title, String content) {
-		if(!Main.isOpen) {
+		if(!Main.isOpen&&StringUtils.isMac()) {
 			long nowTime = System.currentTimeMillis();
 	         if (nowTime - mLastClickTime > 2000L) {
 	        	 if(rightCornerPopMessage!=null) {
@@ -117,7 +117,38 @@ public class BrowserBridge {
 		System.out.println("操作系统的构架：" + props.getProperty("os.arch"));
 		System.out.println("操作系统的版本号：" + props.getProperty("os.version"));
 		BrowserManager.getInstance().getBrowser()
-				.executeJavaScript(String.format(BrowserBridge.getVersionCallback, osName,versionCode, versionName));
+				.executeJavaScript(String.format(BrowserBridge.getVersionCallback, osName,Constant.VERSION_CODE, Constant.VERSION_NAME));
+	}
+	
+	/**
+	 * 打开IE浏览器
+	 * @param url
+	 */
+	public void openIE(String url) {
+		try {
+			if(StringUtils.isWindows()) {
+				//*******下面这样处理是为了避免在打开IE浏览器的时候带&号后面的参数被截掉的问题
+				url = url.replaceAll("\"","\'");
+				url = "\"" + url + "\"";
+				CMDUtil.excuteCMDCommand("cmd /c start iexplore " + url);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+	}
+	
+	/**
+	 * 打开Safari浏览器
+	 * @param url
+	 */
+	public void openSafari(String url) {
+		try {
+			if(StringUtils.isMac()) {
+				CMDUtil.excuteCMDCommand("/usr/bin/open -a safari "+url);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
 	}
 	
 	/**
@@ -132,7 +163,7 @@ public class BrowserBridge {
 		}else if(language!=null&&language.equals("en_US")) {
 			 bundle = ResourceBundle.getBundle("msg_en_US",locale);
 		}
-		System.out.print("switchLanguage方法被调用："+language);
+		System.out.println("switchLanguage方法被调用："+language);
 		mainFrame.switchLanguage(bundle);
 	}
 }
