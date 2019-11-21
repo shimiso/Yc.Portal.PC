@@ -12,8 +12,6 @@
 	<classpathentry kind="lib" path="libs/httpcore-4.4.12.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.5.10.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win32-6.21.jar"/>
-	<classpathentry kind="lib" path="libs/jxbrowser-win64-6.21.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
