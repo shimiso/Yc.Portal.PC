@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 
 import com.yuecheng.workportal.tools.Constant;
 import com.yuecheng.workportal.ui.Main;
-import com.yuecheng.workportal.ui.ProgressDialog;
+import com.yuecheng.workportal.ui.DonwLoadDialog;
 
 import java.awt.Component;
 import java.awt.Frame;
@@ -69,12 +69,12 @@ public class Test {
 	    }
 	    
 	    public static void main(String[] args) {
-	        JFrame jf = new JFrame("测试窗口");
-	        jf.setSize(250, 250);
-	        jf.setLocationRelativeTo(null);
-	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	        jf.setVisible(true);
-	        showCustomDialog(jf,jf);
+//	        JFrame jf = new JFrame("测试窗口");
+//	        jf.setSize(250, 250);
+//	        jf.setLocationRelativeTo(null);
+//	        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//	        jf.setVisible(true);
+//	        showCustomDialog(jf,jf);
 
 //	    	Key                     Meaning
 //	    	-------------------     ------------------------------
@@ -95,9 +95,9 @@ public class Test {
 //	    	"user.home"             User home directory
 //	    	"user.name"             User account name
 	    	
-//	    	System.out.println("user.name: "+ System.getProperty("user.name"));
-//	    	System.out.println("user.home: "+ System.getProperty("user.home"));
-//	    	System.out.println("user.dir: "+ System.getProperty("user.dir"));
+	    	System.out.println("user.name: "+ System.getProperty("user.name"));
+	    	System.out.println("user.home: "+ System.getProperty("user.home"));
+	    	System.out.println("user.dir: "+ System.getProperty("user.dir"));
 	    }
 }
 

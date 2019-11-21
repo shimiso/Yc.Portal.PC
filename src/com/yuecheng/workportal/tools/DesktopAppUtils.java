@@ -36,7 +36,7 @@ public class DesktopAppUtils {
 			}else {
 				String value = registryValue.toString();
 				int valueIndex = value.lastIndexOf("Value:");
-				String path =value.substring(valueIndex + 6, value.length()).trim()+"\\bin";
+				String path =value.substring(valueIndex + 6, value.length()).trim().trim().replaceAll(" ", "\\\" \\\"")+"\\bin";
 				String drivePath = path.substring(0,2);
 				String openCmd=String.format(CMD_OPEN_EAS, path,drivePath,path+"\\client.bat");   
 				System.out.println(openCmd);

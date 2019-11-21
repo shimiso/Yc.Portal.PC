@@ -2,8 +2,6 @@ package com.yuecheng.workportal.tools;
 
 import java.io.File;
 
-import javax.swing.SwingWorker;
-
 public class StringUtils {
 	
 	/**
@@ -50,38 +48,26 @@ public class StringUtils {
 		}
 	}
 	
-	public static File getUserDownloads(File mFile) {
-		String fileName = mFile.getName();
-		
+	public static File getUserDownloads(String fileName) {
+		String userDownloads;
 		//如果是windows且是exe安装包，下载到安装所在文件夹
 		if(StringUtils.isWindows()&&fileName.endsWith(".exe")) {
-			return mFile;
+			userDownloads = System.getProperty("user.dir")+File.separator+"Downloads"+File.separator+fileName;
+			File file= new File(userDownloads);
+			//如果文件夹不存在就创建
+			if (!file.getParentFile().exists()) {
+			  file.getParentFile().mkdirs();
+			}
+			return file;
 		}
 		
-		String userDownloads = System.getProperty("user.home")+File.separator+"Downloads"+File.separator+fileName;
+		userDownloads = System.getProperty("user.home")+File.separator+"Downloads"+File.separator+fileName;
 		File file= new File(userDownloads);
 		//如果文件夹不存在就创建
 		if (!file.getParentFile().exists()) {
 		  file.getParentFile().mkdirs();
 		}
-		// 如果文件已经存在并且大小完整，直接打开，不用重复下载
-		if (file.exists()) {
-			new SwingWorker<Void, Void>() {
-				@Override
-				protected Void doInBackground() throws Exception {
-					file.delete();
-					return null;
-				}
-			}.execute();
-		}
-//		String[] fileInfo = getFileInfo(fileName);
-//		String toPrefix = fileInfo[0];
-//		String toSuffix = fileInfo[1];
-		// 如果文件已经存在并且大小完整，直接打开，不用重复下载
-//		for (int i = 1; file.exists() && i < Integer.MAX_VALUE; i++) {
-//			file = new File(System.getProperty("user.home")+File.separator+"Downloads"+File.separator, toPrefix + '(' + i + ')' + toSuffix);
-//        }
-		return file;
+		return new File(userDownloads);
 	}
 	
 	/**

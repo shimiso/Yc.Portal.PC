@@ -7,16 +7,13 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.net.URL;
-
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.DownloadHandler;
@@ -31,20 +28,21 @@ import com.teamdev.jxbrowser.chromium.events.DownloadListener;
 import com.teamdev.jxbrowser.chromium.events.TitleEvent;
 import com.teamdev.jxbrowser.chromium.events.TitleListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
-import com.yuecheng.workportal.listener.DownloadCancelListener;
 import com.yuecheng.workportal.tools.CMDUtil;
 import com.yuecheng.workportal.tools.Constant;
 import com.yuecheng.workportal.tools.StringUtils;
 import com.yuecheng.workportal.ui.Main;
-import com.yuecheng.workportal.ui.ProgressDialog;
+import com.yuecheng.workportal.ui.DonwLoadDialog;
 
 public class BrowserManager {
+	private final static Log logger = LogFactory.getLog(BrowserManager.class);
 	Browser browser;
 	Main main;
 	static BrowserManager browserManager = null;
 	
 	private BrowserManager() {
 		System.setProperty("jxbrowser.chromium.sandbox", "true");
+		System.setProperty("jxbrowser.chromium.dnd.enabled", "false");//禁用拖放
 		// Specifies remote debugging port for remote Chrome Developer Tools.
 		BrowserPreferences.setChromiumSwitches("--remote-debugging-port=9222");
 		BrowserPreferences.setUserAgent("jxbrowser");
@@ -83,7 +81,7 @@ public class BrowserManager {
 			} else if (StringUtils.isWindows()) {
 				if(fileUrl.endsWith(".exe")) {
 					// windows的打开方式。 
-					CMDUtil.excuteCMDCommand(fileUrl);
+					CMDUtil.excuteCMDCommand("cmd /c start "+fileUrl.trim().replaceAll(" ", "\\\" \\\""));
 				}else {
 					// windows的打开方式。 
 					CMDUtil.excuteCMDCommand("rundll32 url.dll FileProtocolHandler "+fileUrl);	
@@ -102,43 +100,27 @@ public class BrowserManager {
 		// 网页跳出拦截
 		browser.setDownloadHandler(new DownloadHandler() {
 			public boolean allowDownload(DownloadItem download) {
-				System.out.println("开始下载: ");
-				File destinationFile = StringUtils.getUserDownloads(download.getDestinationFile());
-				download.setDestinationFile(destinationFile);
+				logger.info("开始下载: ");
+				DonwLoadDialog progressDialog = DonwLoadDialog.createProgressDialog(main);
+				progressDialog.startDownLoad(download.getURL(),download.getDestinationFile().getName());
 				
-				ProgressDialog  progressDialog = ProgressDialog.createProgressDialog(main);
-				System.out.println("isShow: "+progressDialog.isShow);
-				if(progressDialog.isShow) {
-					return true;
-				}else {
-					progressDialog.setDownloadCancelListener(new DownloadCancelListener() {
-						@Override
-						public void downLoadCancel() {
-							download.cancel();
+				download.addDownloadListener(new DownloadListener() {
+					public void onDownloadUpdated(DownloadEvent event) {
+						DownloadItem download = event.getDownloadItem();
+						int currentProgress = (int) (((float) download.getReceivedBytes() / download.getTotalBytes())
+								* 100);
+						System.out.println("ReceivedBytes: " + download.getReceivedBytes() + " TotalBytes: "
+								+ download.getTotalBytes() + " currentProgress: " + currentProgress);
+						if (download.isCompleted()&&!download.isCanceled()) {
+							String fileUrl = download.getDestinationFile().getAbsolutePath();
+							openFile(fileUrl);
 						}
-					});
-					progressDialog.show();
-					
-					download.addDownloadListener(new DownloadListener() {
-						public void onDownloadUpdated(DownloadEvent event) {
-							DownloadItem download = event.getDownloadItem();
-							int currentProgress = (int) (((float) download.getReceivedBytes() / download.getTotalBytes())
-									* 100);
-							progressDialog.progressUpdated(currentProgress);
-							System.out.println("ReceivedBytes: " + download.getReceivedBytes() + " TotalBytes: "
-									+ download.getTotalBytes() + " currentProgress: " + currentProgress);
-							if (download.isCompleted()&&!download.isCanceled()) {
-								String fileUrl = download.getDestinationFile().getAbsolutePath();
-								openFile(fileUrl);
-							}
-						}
-					});
-					
-					System.out.println("Dest file: " + download.getDestinationFile().getAbsolutePath());
-					return true;
-				}
+					}
+				});
+				
+				System.out.println("Dest file: " + download.getDestinationFile().getAbsolutePath());
+				return false;
 			}
-
 		});
 		
 		browser.setPopupHandler(new PopupHandler() {

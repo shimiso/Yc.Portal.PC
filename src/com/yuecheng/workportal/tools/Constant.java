@@ -1,8 +1,8 @@
 package com.yuecheng.workportal.tools;
 
 public class Constant {
-	public static final String VERSION_CODE = "0";
-	public static final String VERSION_NAME = "Beta_V1.0.0";
+	public static final String VERSION_CODE = "10";
+	public static final String VERSION_NAME = "Beta_V1.0.10";
 	public static final String MainFrame_Title = "MainFrame_Title";
 	public static final String Open_Item = "Open_Item";
 	public static final String Debug_Item = "Debug_Item";

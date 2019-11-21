@@ -11,6 +11,7 @@ import com.yuecheng.workportal.tools.Constant;
 import com.yuecheng.workportal.tools.DesktopAppUtils;
 import com.yuecheng.workportal.tools.StringUtils;
 import com.yuecheng.workportal.ui.Main;
+import com.yuecheng.workportal.ui.DonwLoadDialog;
 import com.yuecheng.workportal.ui.RightCornerPopMessage;
 
 /**
@@ -34,6 +35,7 @@ public class BrowserBridge {
 	}
 
 	public void trayShake(boolean isShake) {
+		System.out.println("闪动"+isShake);
 		if (isShake) {
 			mainFrame.startShake();
 		} else {
@@ -150,7 +152,18 @@ public class BrowserBridge {
 			ex.printStackTrace();
 		} 
 	}
-	
+	/**
+	 * 启动一个下载任务
+	 * @param url
+	 */
+	public void openDownload(String url,String fileName) {
+		try {
+			DonwLoadDialog  progressDialog = DonwLoadDialog.createProgressDialog(mainFrame);
+			progressDialog.startDownLoad(url,fileName);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} 
+	}
 	/**
 	 * 切换中英文
 	 * @param language zh_CN 中文   en_US  英文

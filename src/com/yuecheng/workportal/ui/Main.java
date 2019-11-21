@@ -29,7 +29,6 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import com.teamdev.jxbrowser.chromium.Browser;
-import com.teamdev.jxbrowser.chromium.BrowserPreferences;
 import com.teamdev.jxbrowser.chromium.JSValue;
 import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
@@ -58,7 +57,7 @@ public class Main extends JFrame{
 	 * 初始化窗体的方法
 	 */
 	public void init() {
-//        this.setUndecorated(true);
+//      this.setUndecorated(true);
 		this.setTitle(RES_BUNDLE.getString(Constant.MainFrame_Title));
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		Integer minScreenWidth = (int) (dimension.width*0.66);
@@ -76,7 +75,6 @@ public class Main extends JFrame{
 			public void windowActivated(WindowEvent arg0) {
 				stopShake();
 				isOpen = true;
-				ProgressDialog  progressDialog = ProgressDialog.createProgressDialog(Main.this);
 			}
 
 			@Override
